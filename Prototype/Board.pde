@@ -1,6 +1,8 @@
-import java.util.*;
-
-void setup () {
-  size (600, 600);
+public class Board {
+  private boolean playerWin;
+  private boolean aiWin;
+  private boolean replay;
+  private boolean canMove;
+  private boolean playerTurn;
   
 }
