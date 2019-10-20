@@ -1,3 +1,5 @@
-enum States {
-  
+public enum States {
+  _,
+  X,
+  O
 }

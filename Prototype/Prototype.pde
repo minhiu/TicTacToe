@@ -18,6 +18,8 @@ void setup() {
   
   // Create 9 buttons
    initializeButtons();
+   
+   drawBoard();
     
 } // End setup() function
 
@@ -43,4 +45,8 @@ public void initializeButtons() {
       allButtons[i*3 + j] = new Button(200 * i, 200 * j, 200, 200, "b" + i*3 + j);
     }
   }
+}
+
+public void drawBoard() {
+  
 }
