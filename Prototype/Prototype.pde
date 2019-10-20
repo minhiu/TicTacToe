@@ -26,5 +26,11 @@ void setup() {
 void draw() {
   background(255);
   board.drawBoard();
-  
 }
+
+void mousePressed() {
+  print("You pressed button " + (board.getUserInput() + 1) + "\n");
+  board.makeTurn(board.getUserInput());
+  //board.drawStates();
+  //board.aiTurn();
+} // End mousePressed() function
