@@ -5,6 +5,7 @@
   */
   
 public class Board {
+  private boolean newGame; // Added for fuction looping
   private boolean playerWin;
   private boolean aiWin;
   private boolean replay;
@@ -18,6 +19,7 @@ public class Board {
   * Default board constructor
   */
   public Board() {
+    this.newGame = false; // Added for function looping
     this.playerWin = false;
     this.aiWin = false;
     this.replay = false;
@@ -198,15 +200,26 @@ public class Board {
   // Consider modifying this to use the member variables
 /**
   * Checks if either X won, O won, or if it's a tie
+  // The game auto resets on a victory but doesn't show the winning board state (need to fix this)
   */
   public boolean checkGameOver() {
     if (this.returnWinner() != States.EMPTY) {
       print("Game is over.\n");
-      if (this.returnWinner() == States.X)
+      if (this.returnWinner() == States.X)  {
          print("X won.\n");
-      else
+      }// X gets the win
+      else  {
          print("O won.\n");
-      return true;
+      }// O gets the win
+      print("Do you want to play again? (Click any square to restart)\n");
+      if(this.validInput(getUserInput()) || !this.validInput(getUserInput())) {
+        newGame = true;  // New game so AI doesn't automatically go first
+        resetBoard();
+        return false;
+      }
+      else {
+        return true;
+      }
     }// Finish win checking
     return false;
   }// End checkGameOver() function
@@ -220,10 +233,11 @@ public class Board {
     if (!this.checkGameOver()) {
       if (this.validInput(buttonIndex)) {
          this.boardState[buttonIndex] = States.O; //player.getXO() - Strangely, player.getXO() returns null even though the constructor of Player assigns this.xo a value. For now, make the player always be O.
-         if (!this.checkGameOver()) {
+         if (!this.checkGameOver() && newGame == false) { // Edited for looping
            this.aiTurn();
            this.checkGameOver();
          }// End loop for AI move check and allows the move
+          newGame = false; // Stop after the player makes the first move to allow AI to go
       }// End loop for player move check and allows the move
       else
         print("Invalid move.\n");

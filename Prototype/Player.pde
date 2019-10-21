@@ -5,7 +5,7 @@
   */
   
 /**
-  *The Player class which holds all user states
+  * The Player class which holds all user states
   */
 public class Player {
   private States xo; // Player's character, either an X, O, or blank space (non-functional character).
@@ -16,14 +16,15 @@ public class Player {
     * The player constructor, has the random assignment built in
     */
   public Player() {
-    if (random(1) == 0)
-    {
-      this.xo = States.X; 
-    } // Randomly chose X
-    else
-    {
-      this.xo = States.O;
-    } // Randomly chose Y
+    
+          if (random(1) == 0)
+          {
+            this.xo = States.X; 
+          } // Randomly chose X
+          else
+          {
+            this.xo = States.O;
+          } // Randomly chose Y
   } // End player constructor
   
   // Assign player's character to a X (TODO: Change this so it is randomly either X or O)
