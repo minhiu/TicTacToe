@@ -55,7 +55,7 @@ public class Board {
      return -1;
   }
   
-  public void drawStates() {
+  public void drawShapes() {
     
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -73,8 +73,6 @@ public class Board {
   public void drawStatesDEBUG() {
     
     for (int i = 0; i < 9; i++) {
-      
-      
         if (this.boardState[i] == States._)
           print ("_ ");
         else if (this.boardState[i] == States.X)
@@ -97,7 +95,7 @@ public class Board {
       }
     }
     
-    int randomButton = possibleStates[(int) random(count)];
+    int randomButton = possibleStates[(int) random(count)]; // Randomly picks from button 0 to count - 1.
     
     if (count == 0)
       print("No more moves possible.\n");
@@ -109,7 +107,7 @@ public class Board {
   }
   public void drawBoard() {
     this.drawLines();
-    this.drawStates();
+    this.drawShapes();
   }
   
   private boolean validInput(int buttonIndex) {
@@ -117,18 +115,22 @@ public class Board {
   }
   
   private States returnWinner() {
-    
     for (int i = 0; i < 3; ++i) {
-      if (this.boardState[i] != States._ && this.boardState[i + 1] != States._ && this.boardState[i + 2] != States._) {
-        if ((this.boardState[i] == this.boardState[i + 1]) && (this.boardState[i + 1] == this.boardState[i + 2])) {
-          return this.boardState[i];
+      
+      // Check for matching rows
+      // 0 1 2
+      // 3 4 5
+      // 6 7 8
+      if (this.boardState[i * 3] != States._ && this.boardState[i * 3 + 1] != States._ && this.boardState[i * 3 + 2] != States._) {
+        if ((this.boardState[i * 3] == this.boardState[i * 3 + 1]) && (this.boardState[i * 3 + 1] == this.boardState[i * 3 + 2])) {
+          return this.boardState[i * 3];
         }
       }
       
+      // Checking for matching columns
       // 0 3 6
       // 1 4 7
       // 2 5 8
-      
       if (this.boardState[i] != States._ && this.boardState[i + 3] != States._ && this.boardState[i + 6] != States._) {
         if ((this.boardState[i] == this.boardState[i + 3]) && (this.boardState[i + 3] == this.boardState[i + 6])) {
           return this.boardState[i];
@@ -136,26 +138,28 @@ public class Board {
       }
     }
     
-    
+    // Checking for matching diagonial top left to bottom right
+    // 0 4 8
     if ((this.boardState[0] != States._ && this.boardState[4] != States._ && this.boardState[8] != States._) && 
        ((this.boardState[0] == this.boardState[4]) && (this.boardState[4] == this.boardState[8])))
        return this.boardState[0];
        
+    // Checking for matching diagonal top right to bottom left
+    // 2 4 6
     if ((this.boardState[2] != States._ && this.boardState[4] != States._ && this.boardState[6] != States._) && 
        (((this.boardState[2] == this.boardState[4]) && (this.boardState[4] == this.boardState[6]))))
        return this.boardState[2];
        
     return States._;
-      
   }
   
   public boolean checkGameOver() {
     if (this.returnWinner() != States._) {
       print("Game is over.\n");
       if (this.returnWinner() == States.X)
-        print("X won.\n");
+         print("X won.\n");
       else
-        print("O won.\n");
+         print("O won.\n");
       return true;
     }
     return false;
@@ -167,9 +171,11 @@ public class Board {
 
       if (this.validInput(buttonIndex)) {
          this.boardState[buttonIndex] = States.O;//player.getXO();
-         this.aiTurn();
-         this.checkGameOver();
+         if (!this.checkGameOver()) {
+           this.aiTurn();
+           this.checkGameOver();
          }
+      }
       else
         print("Invalid move.\n");
     }
