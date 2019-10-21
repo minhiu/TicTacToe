@@ -1,3 +1,8 @@
+/**A player class that holds what state the player can be in
+   Homework Assignment: TicTacToe Prototype
+   @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
+   @version 1.0 10/22/2019
+  */
 public class Player {
   private States xo; // Player's character, either an X, O, or blank space (non-functional character).
   
