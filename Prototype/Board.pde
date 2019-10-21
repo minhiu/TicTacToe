@@ -19,11 +19,11 @@ public class Board {
     //this.player.assignXO(); // For some reason, this line of code will make the program crash, and can't figure out why. It is supposed to assign the player object either an X or an O. For now, assume the player is always O.
   }
   
-  // Resets the boardState to all empty squares (States._)
+  // Resets the boardState to all empty squares (States.EMPTY)
   public void resetBoard() {
     boardState = new States[9];
     for (int i = 0; i < 9; ++i) {
-      boardState[i] = States._;
+      boardState[i] = States.EMPTY;
     }
   }
   
@@ -77,7 +77,7 @@ public class Board {
   // Do not call from drawBoard() or draw() or else it'll spam the console.
   public void drawBoardDEBUG() {
     for (int i = 0; i < 9; i++) {
-        if (this.boardState[i] == States._)
+        if (this.boardState[i] == States.EMPTY)
           print ("_ ");
         else if (this.boardState[i] == States.X)
           print ("X ");
@@ -93,7 +93,7 @@ public class Board {
     int count = 0; // Number of empty squares found
     int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
     for (int i = 0; i < 9; i++) {
-      if (boardState[i] == States._) {
+      if (boardState[i] == States.EMPTY) {
         possibleStates[count] = i;
         ++count;
       }
@@ -115,13 +115,13 @@ public class Board {
   
   // Checks if the button specified by buttonIndex is empty
   private boolean validInput(int buttonIndex) {
-    return (boardState[buttonIndex] == States._);
+    return (boardState[buttonIndex] == States.EMPTY);
   }
   
   // Checks if a player won
   // If X won, return States.X
   // If O won, return States.O
-  // If neither won, return States._
+  // If neither won, return States.EMPTY
   // Consider modifying this to use the member variables 
   private States returnWinner() {
     for (int i = 0; i < 3; ++i) {
@@ -129,7 +129,7 @@ public class Board {
       // 0 1 2
       // 3 4 5
       // 6 7 8
-      if (this.boardState[i * 3] != States._ && this.boardState[i * 3 + 1] != States._ && this.boardState[i * 3 + 2] != States._) {
+      if (this.boardState[i * 3] != States.EMPTY && this.boardState[i * 3 + 1] != States.EMPTY && this.boardState[i * 3 + 2] != States.EMPTY) {
         if ((this.boardState[i * 3] == this.boardState[i * 3 + 1]) && (this.boardState[i * 3 + 1] == this.boardState[i * 3 + 2])) {
           return this.boardState[i * 3];
         }
@@ -138,7 +138,7 @@ public class Board {
       // 0 3 6
       // 1 4 7
       // 2 5 8
-      if (this.boardState[i] != States._ && this.boardState[i + 3] != States._ && this.boardState[i + 6] != States._) {
+      if (this.boardState[i] != States.EMPTY && this.boardState[i + 3] != States.EMPTY && this.boardState[i + 6] != States.EMPTY) {
         if ((this.boardState[i] == this.boardState[i + 3]) && (this.boardState[i + 3] == this.boardState[i + 6])) {
           return this.boardState[i];
         }
@@ -146,21 +146,21 @@ public class Board {
     }
     // Checking for matching diagonial top left to bottom right
     // 0 4 8
-    if ((this.boardState[0] != States._ && this.boardState[4] != States._ && this.boardState[8] != States._) && 
+    if ((this.boardState[0] != States.EMPTY && this.boardState[4] != States.EMPTY && this.boardState[8] != States.EMPTY) && 
        ((this.boardState[0] == this.boardState[4]) && (this.boardState[4] == this.boardState[8])))
        return this.boardState[0];
     // Checking for matching diagonal top right to bottom left
     // 2 4 6
-    if ((this.boardState[2] != States._ && this.boardState[4] != States._ && this.boardState[6] != States._) && 
+    if ((this.boardState[2] != States.EMPTY && this.boardState[4] != States.EMPTY && this.boardState[6] != States.EMPTY) && 
        (((this.boardState[2] == this.boardState[4]) && (this.boardState[4] == this.boardState[6]))))
        return this.boardState[2];
-    return States._;
+    return States.EMPTY;
   }
   
   // Returns if the game is over and displays who won if the game is over.
   // Consider modifying this to use the member variables
   public boolean checkGameOver() {
-    if (this.returnWinner() != States._) {
+    if (this.returnWinner() != States.EMPTY) {
       print("Game is over.\n");
       if (this.returnWinner() == States.X)
          print("X won.\n");
