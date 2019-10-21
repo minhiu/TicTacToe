@@ -1,5 +1,5 @@
 /**A Button class that outlines info about a button.
-   Homework Assignment: Percussion
+   Homework Assignment: TicTacToe Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
    @version 1.0 10/22/2019
   */
