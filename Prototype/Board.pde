@@ -17,8 +17,7 @@ public class Board {
     this.resetBoard();
     this.initializeButtons();
     this.player = new Player(); // Alex used a constructor to declare the player object 10/21/19
-    player.assignXO();
-    //this.player.assignXO(); // For some reason, this line of code will make the program crash, and can't figure out why. It is supposed to assign the player object either an X or an O. For now, assume the player is always O.
+    this.player.assignXO(); // For some reason, this line of code will make the program crash, and can't figure out why. It is supposed to assign the player object either an X or an O. For now, assume the player is always O.
   }
   
   // Resets the boardState to all empty squares (States.EMPTY)
@@ -101,10 +100,16 @@ public class Board {
       }
     }
     int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+    States aiTurn; // Assigning AI Opposite sign with player
+    if (player.getXO() == States.X)
+      aiTurn = States.O;
+    else
+      aiTurn = States.X;
+      
     if (count == 0)
       print("No more moves possible.\n");
     else {
-      boardState[randomButton] = States.X;
+      boardState[randomButton] = aiTurn;
       print("AI made a move on square " + (randomButton + 1) + "\n");
     }
   }
@@ -178,7 +183,7 @@ public class Board {
   public void makeTurn(int buttonIndex) {
     if (!this.checkGameOver()) {
       if (this.validInput(buttonIndex)) {
-         this.boardState[buttonIndex] = States.O; //player.getXO() - Strangely, player.getXO() returns null even though the constructor of Player assigns this.xo a value. For now, make the player always be O.
+         this.boardState[buttonIndex] = player.getXO(); //player.getXO() - Strangely, player.getXO() returns null even though the constructor of Player assigns this.xo a value. For now, make the player always be O.
          if (!this.checkGameOver()) {
            this.aiTurn();
            this.checkGameOver();
