@@ -26,7 +26,6 @@ public class Board {
     this.resetBoard();
     this.initializeButtons();
     this.player = new Player(); // Alex used a constructor to declare the player object 10/21/19
-    player.assignXO();
     //this.player.assignXO(); // For some reason, this line of code will make the program crash, and can't figure out why. It is supposed to assign the player object either an X or an O. For now, assume the player is always O.
   } // End board constructor
   
