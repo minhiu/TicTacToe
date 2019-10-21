@@ -1,5 +1,5 @@
 /**A processing program to TicTacToe.
-   Homework Assignment: Prototype
+   Homework Assignment: TicTacToe Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
    @version 1.0 10/22/2019
   */
@@ -26,8 +26,10 @@ void setup() {
 void draw() {
   background(255);
   board.drawBoard();
-}
-
+}// End draw() function
+/**
+  * Checks to see if the player pressed a button
+  */
 void mousePressed() {
   int buttonPressed = board.getUserInput(); // Get index of button that the player pressed based on the location of the mouse.
   print("You pressed button " + (buttonPressed + 1) + "\n"); // Display index of button that was pressed. plus 1. Buttons are indexed 0 through 8, but are displayed as 1 through 9.
