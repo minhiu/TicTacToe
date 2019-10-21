@@ -16,21 +16,20 @@ public class Board {
     this.playerTurn = true; // Possibly random whether true or false
     this.resetBoard();
     this.initializeButtons();
-    //this.player.assignXO();
+    //this.player.assignXO(); // For some reason, this line of code will make the program crash, and can't figure out why. It is supposed to assign the player object either an X or an O. For now, assume the player is always O.
   }
   
+  // Resets the boardState to all empty squares (States._)
   public void resetBoard() {
     boardState = new States[9];
-    
     for (int i = 0; i < 9; ++i) {
       boardState[i] = States._;
     }
   }
   
-  // Create 9 buttons:
+  // Create 9 buttons with their coordinates
   private void initializeButtons() {
     this.allButtons = new Button[9];
-   
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         this.allButtons[i * 3 + j] = new Button(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE, SQUARE_SIZE, "b" + i * 3 + j + 1);
@@ -38,40 +37,45 @@ public class Board {
     }
   }
   
+  // Draws the lines that make up the board's grid
   private void drawLines() {
     for (int i = 0; i < 3; i++) {
-      line (i * SQUARE_SIZE, 0, i * SQUARE_SIZE, height);
-    }
-    for (int i = 0; i < 3; i++) {
-      line (0, i * SQUARE_SIZE, width, i * SQUARE_SIZE);
+      line (i * SQUARE_SIZE, 0, i * SQUARE_SIZE, height); // Draws vertical lines
+      line (0, i * SQUARE_SIZE, width, i * SQUARE_SIZE);  // Draws horizontal lines
     }
   }
   
+  // Returns index of button that the mouse cursor is currently hovering over
+  // To do this, it calls isInside() of each of the 9 buttons with the mouse's current coordinates and return the index of the button whose isInside() function returns true.
+  // If the mouse is not hovering over a button (this should not be possible, as the entire board should be covered with buttons), return -1.
   public int getUserInput() {
      for (int i = 0; i < 9; i++) {
        if (this.allButtons[i].isInside(mouseX, mouseY))
          return i;
      }
-     return -1;
+     return -1; // Return -1 if mouse is not hovering over a button.
   }
   
+  // Draws all X's and O's on the board.
   public void drawShapes() {
-    
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        if (this.boardState[i * 3 + j] == States.X) {
+        if (this.boardState[i * 3 + j] == States.X) { // Draw X's consisting of two diagonal lines
           line(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE * (j + 1), SQUARE_SIZE * (i + 1));
           line(SQUARE_SIZE * j, SQUARE_SIZE * (i + 1), SQUARE_SIZE * (j + 1), SQUARE_SIZE * i);
         }
-        else if (this.boardState[i * 3 + j] == States.O) {
+        else if (this.boardState[i * 3 + j] == States.O) { // Draw O's consisting of a circle
           circle(SQUARE_SIZE * j + (SQUARE_SIZE * 0.5), SQUARE_SIZE * i + (SQUARE_SIZE * 0.5), SQUARE_SIZE);
         }     
       }
     }
   }
   
-  public void drawStatesDEBUG() {
-    
+  // Remove this function in final version of project.
+  // This function displays the board in the console.
+  // Ideally, call this function at the end of mousePressed() in Prototype.pde.
+  // Do not call from drawBoard() or draw() or else it'll spam the console.
+  public void drawBoardDEBUG() {
     for (int i = 0; i < 9; i++) {
         if (this.boardState[i] == States._)
           print ("_ ");
@@ -84,39 +88,43 @@ public class Board {
     }
   }
   
+  // The AI makes a turn in a random empty square
   public void aiTurn() {
-    int count = 0;
-    int[] possibleStates = new int[9];
-    
+    int count = 0; // Number of empty squares found
+    int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
     for (int i = 0; i < 9; i++) {
       if (boardState[i] == States._) {
         possibleStates[count] = i;
         ++count;
       }
     }
-    
-    int randomButton = possibleStates[(int) random(count)]; // Randomly picks from button 0 to count - 1.
-    
+    int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
     if (count == 0)
       print("No more moves possible.\n");
     else {
       boardState[randomButton] = States.X;
-      print("AI made a move on button " + (randomButton + 1) + "\n");
+      print("AI made a move on square " + (randomButton + 1) + "\n");
     }
-    
   }
+  
+  // Calls functions to draw the lines (the grid) and shapes (X's and O's) of the board.
   public void drawBoard() {
     this.drawLines();
     this.drawShapes();
   }
   
+  // Checks if the button specified by buttonIndex is empty
   private boolean validInput(int buttonIndex) {
     return (boardState[buttonIndex] == States._);
   }
   
+  // Checks if a player won
+  // If X won, return States.X
+  // If O won, return States.O
+  // If neither won, return States._
+  // Consider modifying this to use the member variables 
   private States returnWinner() {
     for (int i = 0; i < 3; ++i) {
-      
       // Check for matching rows
       // 0 1 2
       // 3 4 5
@@ -126,7 +134,6 @@ public class Board {
           return this.boardState[i * 3];
         }
       }
-      
       // Checking for matching columns
       // 0 3 6
       // 1 4 7
@@ -137,22 +144,21 @@ public class Board {
         }
       }
     }
-    
     // Checking for matching diagonial top left to bottom right
     // 0 4 8
     if ((this.boardState[0] != States._ && this.boardState[4] != States._ && this.boardState[8] != States._) && 
        ((this.boardState[0] == this.boardState[4]) && (this.boardState[4] == this.boardState[8])))
        return this.boardState[0];
-       
     // Checking for matching diagonal top right to bottom left
     // 2 4 6
     if ((this.boardState[2] != States._ && this.boardState[4] != States._ && this.boardState[6] != States._) && 
        (((this.boardState[2] == this.boardState[4]) && (this.boardState[4] == this.boardState[6]))))
        return this.boardState[2];
-       
     return States._;
   }
   
+  // Returns if the game is over and displays who won if the game is over.
+  // Consider modifying this to use the member variables
   public boolean checkGameOver() {
     if (this.returnWinner() != States._) {
       print("Game is over.\n");
@@ -165,12 +171,12 @@ public class Board {
     return false;
   }
   
+  // Lets the player make a turn if the game isn't over. After the play makes a turn, let the AI make a turn if the game still isn't over.
+  // Consider modifying this to use the member variables
   public void makeTurn(int buttonIndex) {
-
     if (!this.checkGameOver()) {
-
       if (this.validInput(buttonIndex)) {
-         this.boardState[buttonIndex] = States.O;//player.getXO();
+         this.boardState[buttonIndex] = States.O; //player.getXO() - Strangely, player.getXO() returns null even though the constructor of Player assigns this.xo a value. For now, make the player always be O.
          if (!this.checkGameOver()) {
            this.aiTurn();
            this.checkGameOver();

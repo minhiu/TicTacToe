@@ -7,12 +7,12 @@
 import java.util.*;
 
 final int INITIAL_FRAMERATE = 60;
-final int SQUARE_SIZE = 200;
+final int SQUARE_SIZE = 200; // Size of the buttons and squares
 
 Board board = new Board();
 
 /**
- * Starts up and makes the board for the buttons to appear
+ * Starts up and makes the window in which the board will appear in
  */
 void setup() {
   // Make window
@@ -21,7 +21,7 @@ void setup() {
 } // End setup() function
 
 /**
- * Draws the board
+ * Draws the board, including the grid and all shapes
  */
 void draw() {
   background(255);
@@ -29,8 +29,7 @@ void draw() {
 }
 
 void mousePressed() {
-  print("You pressed button " + (board.getUserInput() + 1) + "\n");
-  board.makeTurn(board.getUserInput());
-  //board.drawStates();
-  //board.aiTurn();
+  int buttonPressed = board.getUserInput(); // Get index of button that the player pressed based on the location of the mouse.
+  print("You pressed button " + (buttonPressed + 1) + "\n"); // Display index of button that was pressed. plus 1. Buttons are indexed 0 through 8, but are displayed as 1 through 9.
+  board.makeTurn(buttonPressed); // Attempt to make a turn at the index of the button that was pressed.
 } // End mousePressed() function

@@ -1,5 +1,5 @@
 public enum States {
-  _,
-  X,
-  O
+  _, // Empty state
+  X, // X state
+  O  // O state
 }
