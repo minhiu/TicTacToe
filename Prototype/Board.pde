@@ -99,23 +99,6 @@ public class Board {
     }// End width choie row 
   }// End drawShapes() function
   
-  // Remove this function in final version of project.
-  // This function displays the board in the console.
-  // Ideally, call this function at the end of mousePressed() in Prototype.pde.
-  // Do not call from drawBoard() or draw() or else it'll spam the console.
-  public void drawBoardDEBUG() {
-    for (int i = 0; i < 9; i++) {
-        if (this.boardState[i] == States.EMPTY)
-          print ("_ ");
-        else if (this.boardState[i] == States.X)
-          print ("X ");
-        else
-          print ("O ");
-        if (((i + 1) % 3) == 0)
-          print ("\n");
-    }
-  }
-  
   // The AI makes a turn in a random empty square
 /**
   * Fills the correct button for the AI's choice with the opposite state as the player
