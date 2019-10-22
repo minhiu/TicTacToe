@@ -7,7 +7,7 @@
 public class Board {
   private boolean playerWin;
   private boolean aiWin;
-  private boolean replay;
+  private boolean gameover;
   private boolean canMove;
   private boolean playerTurn;
   private States[] boardState;
@@ -20,7 +20,7 @@ public class Board {
   public Board() {
     this.playerWin = false;
     this.aiWin = false;
-    this.replay = false;
+    this.gameover = false;
     this.canMove = true; // Possibly random whether true or false
     this.playerTurn = true; // Possibly random whether true or false
     this.resetBoard();
@@ -119,8 +119,11 @@ public class Board {
     else
       aiTurn = States.X;
       
-    if (count == 0)
+    if (count == 0) {
+      this.gameover = true;
       print("No more moves possible.\n");
+      print("Press any square to start another game.");
+    }
     else {
       boardState[randomButton] = aiTurn;
       print("AI made a move on square " + (randomButton + 1) + "\n");
@@ -193,6 +196,7 @@ public class Board {
   */
   public boolean checkGameOver() {
     if (this.returnWinner() != States.EMPTY) {
+      this.gameover = true;
       print("Game is over.\n");
       if (this.returnWinner() == States.X)
          print("X won.\n");
@@ -200,11 +204,12 @@ public class Board {
          print("O won.\n");
       print("It took " + this.countTurns(this.returnWinner()) + " turns to win.\n");
       if (this.returnWinner() == player.getXO()) { // Check if the winner is the player
-        print("You win. You are a master at tic-tac-toe."); // "compliment their mastery of tic-tac-toe"
+        print("You win. You are a master at tic-tac-toe.\n"); // "compliment their mastery of tic-tac-toe"
       } // End if
       else {
-        print("You lose. Have you never played before?"); // "display a snarky remark about the user’s ability"
+        print("You lose. Have you never played before?\n"); // "display a snarky remark about the user’s ability"
       } // End else
+      print("Press any square to start another game.\n");
       return true;
     }// Finish win checking
     return false;
@@ -229,16 +234,26 @@ public class Board {
   * Lets player and AI make a turn if the game has not yet finished
   */
   public void makeTurn(int buttonIndex) {
-    if (!this.checkGameOver()) {
-      if (this.validInput(buttonIndex)) {
-         this.boardState[buttonIndex] = player.getXO();
-         if (!this.checkGameOver()) {
-           this.aiTurn();
-           this.checkGameOver();
-         }// End loop for AI move check and allows the move
-      }// End loop for player move check and allows the move
-      else
-        print("Invalid move.\n");
-    }// End game over check and let's user know thier move is invalid
+    if (this.gameover) {
+      this.gameover = false;
+      this.resetBoard();
+      this.player.assignXO(); // Assign a random sign for player
+      if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
+        this.aiTurn();
+      }
+    }
+    else {
+      if (!this.checkGameOver()) {
+        if (this.validInput(buttonIndex)) {
+           this.boardState[buttonIndex] = player.getXO();
+           if (!this.checkGameOver()) {
+             this.aiTurn();
+             this.checkGameOver();
+           }// End loop for AI move check and allows the move
+        }// End loop for player move check and allows the move
+        else
+          print("Invalid move.\n");
+      }// End game over check and let's user know thier move is invalid
+    }
   }// End makeTurn() function
 }// End Board class
