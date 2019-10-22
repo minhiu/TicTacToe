@@ -27,6 +27,9 @@ public class Board {
     this.initializeButtons();
     this.player = new Player(); // Create new player
     this.player.assignXO(); // Assign a random sign for player
+    if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
+        this.aiTurn();
+    } // End if
   } // End board constructor
   
   // Resets the boardState to all empty squares (States.EMPTY)
@@ -217,7 +220,7 @@ public class Board {
         print("You win. You are a master at tic-tac-toe."); // "compliment their mastery of tic-tac-toe"
       } // End if
       else {
-        print("You lose. Have you never played before?."); // "display a snarky remark about the user’s ability"
+        print("You lose. Have you never played before?"); // "display a snarky remark about the user’s ability"
       } // End else
       return true;
     }// Finish win checking
