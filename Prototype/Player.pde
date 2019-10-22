@@ -9,49 +9,34 @@
   */
 public class Player {
   private States xo; // Player's character, either an X, O, or blank space (non-functional character).
-  private Random random; // Randomize X or O for player
-  // Sets player's character to a blank square.
-  // For some reason, the value of this.xo does not seem to change in any function that modifies it, even the constructor. Needs to be fixed.
   /**
-    * The player constructor, has the random assignment built in
-    */
+  * Default Player constructor, has the random assignment built in.
+  * Sets player's character to a blank square.
+  */
   public Player() {
     this.xo = States.EMPTY;
-    random = new Random();
   }
 
-  // Assign player's character to a X (TODO: Change this so it is randomly either X or O)
-  // This function does not work for some reason??? 
   /**
-    * Randomly assigns the player either X or O
-    * //not sure if we need this since we can do random assignment in the constructor (both arent working)
-    */
+  * Randomly assigns the player either X or O.
+  */
   public void assignXO() {
-    
-    if (getRandomBoolean())
+    if (((int) random(2)) == 0)
       this.setXO(States.O);
     else
       this.setXO(States.X);
   }
   
-  // Sets player character to given input
   /**
-    * Sets the state of the player as either X or O
-    */
+  * Sets the state of the player to given input.
+  */
   private void setXO(States nXO) {
     this.xo = nXO;
   } // End setXO() function
-  
-  public boolean getRandomBoolean() {
-      return random.nextBoolean();
-  }
 
-  // Return the player's character
-  // NOTE: This function will return null for some reason, even though the constructor assigns this.xo a value of States._ Calling a setter does not fix
-  // Needs to be fixed
   /**
-    * Returns the player's charater
-    */
+  * Returns the player's charater
+  */
   public States getXO() {
     return this.xo;
   } // End getXO() function

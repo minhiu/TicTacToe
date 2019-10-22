@@ -4,7 +4,7 @@
    @version 1.0 10/22/2019
   */
 
-import java.util.*;
+//import java.util.*;
 
 final int INITIAL_FRAMERATE = 60;
 final int SQUARE_SIZE = 200; // Size of the buttons and squares

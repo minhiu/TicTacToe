@@ -9,17 +9,14 @@ public class Board {
    Stores whether the board has reached a game over state.
   */
   private boolean gameover;
-  
   /**
    The squares on the board.
   */
   private States[] boardState;
-  
   /**
    The buttons on the board.
   */
   private Button[] allButtons;
-  
   /**
    The human player.
   */
@@ -283,4 +280,68 @@ public class Board {
       }// End game over check and let's user know thier move is invalid
     }
   }// End makeTurn() function
+  
+  
+  /**
+   * Gets gameover state.
+   * @return Whether we are in a gameover state.
+   */
+  public boolean getGameover() {
+    return this.gameover;
+  } // End getGameover() function
+  
+  /**
+   * Gets Board's state as a String.
+   * @return Board's state as a String.
+   */
+  public String getBoardStateString()  {
+    String output = "";
+    for (int i = 0; i < 9; i++) {
+        if (this.boardState[i] == States.EMPTY)
+          output += "_ ";
+        else if (this.boardState[i] == States.X)
+          output += "X ";
+        else
+          output += "O ";
+        if (((i + 1) % 3) == 0)
+          output += "\n";
+    }
+    return output;
+  } // End getBoardStateString() function
+  
+  /**
+   * Gets all of the button's outputs of their toString() methods and combines them.
+   * @return All of the button's outputs of their toString() methods and combines them.
+   */
+  public String getButtonText() {
+    String output = "";
+    for (int i = 0; i < 9; ++i) {
+      output += this.allButtons[i].toString();
+    }
+    return output;
+  } // End getButtonText() function
+  
+  /**
+   * Gets player.
+   * @return player.
+   */
+  public Player getPlayer() {
+    return this.player;
+  } // End getPlayer() function
+  
+  /**
+  * Returns String with info about the Board.
+  * @return String with info about the Board.
+  */
+  public String toString() {
+    return ("Gameover=" + (this.getGameover() ? "true" : "false") + " Board state="  + this.getBoardStateString() + " Buttons:" + this.getButtonText() + " PlayerXO=" + ((this.getPlayer().getXO() == States.X) ? "X" : "O") + "\n");
+  } // End toString() function
+ 
+  /**
+  * Checks whether two boards are equal.
+  * @return whether two board are equal.
+  */
+  public boolean equals(Board otherBoard) {
+    return (this.getGameover() == otherBoard.getGameover() && this.getBoardStateString() == otherBoard.getBoardStateString() && this.getButtonText() == otherBoard.getButtonText() && this.getPlayer() == otherBoard.getPlayer());
+  } // End equals(...) function
 }// End Board class

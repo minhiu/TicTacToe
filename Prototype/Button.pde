@@ -160,7 +160,7 @@ public class Button
    * @return String with info about the Button.
    */
   public String toString() {
-    return this.getLabel() + " x=" + this.getX() + " y=" + this.getY() + " width=" + this.getW() + " height=" + this.getH();
+    return this.getLabel() + " x=" + this.getX() + " y=" + this.getY() + " width=" + this.getW() + " height=" + this.getH() + "\n";
   } // End toString() function
  
   /**
