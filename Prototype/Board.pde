@@ -212,10 +212,24 @@ public class Board {
          print("X won.\n");
       else
          print("O won.\n");
+      print("It took " + this.countTurns(this.returnWinner()) + " turns to win.\n");
       return true;
     }// Finish win checking
     return false;
   }// End checkGameOver() function
+  
+  /**
+  * Counts number of squares on the board that have the state stateToCount.
+  */
+  private int countTurns(States stateToCount) {
+    int noTurns = 0;
+    for (int i = 0; i < 9; ++i) {
+      if (this.boardState[i] == stateToCount) {
+        ++noTurns;
+      } // End if statement
+    } // End for statement
+    return noTurns;
+  } // End countTurns() function
   
   // Lets the player make a turn if the game isn't over. After the play makes a turn, let the AI make a turn if the game still isn't over.
   // Consider modifying this to use the member variables
@@ -225,7 +239,7 @@ public class Board {
   public void makeTurn(int buttonIndex) {
     if (!this.checkGameOver()) {
       if (this.validInput(buttonIndex)) {
-         this.boardState[buttonIndex] = player.getXO(); //player.getXO() - Strangely, player.getXO() returns null even though the constructor of Player assigns this.xo a value. For now, make the player always be O.
+         this.boardState[buttonIndex] = player.getXO();
          if (!this.checkGameOver()) {
            this.aiTurn();
            this.checkGameOver();
