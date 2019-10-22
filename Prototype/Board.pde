@@ -5,24 +5,31 @@
   */
   
 public class Board {
-  private boolean playerWin;
-  private boolean aiWin;
+  /**
+   Stores whether the board has reached a game over state.
+  */
   private boolean gameover;
-  private boolean canMove;
-  private boolean playerTurn;
+  
+  /**
+   The squares on the board.
+  */
   private States[] boardState;
+  
+  /**
+   The buttons on the board.
+  */
   private Button[] allButtons;
+  
+  /**
+   The human player.
+  */
   private Player player;
   
 /**
   * Default board constructor
   */
   public Board() {
-    this.playerWin = false;
-    this.aiWin = false;
     this.gameover = false;
-    this.canMove = true; // Possibly random whether true or false
-    this.playerTurn = true; // Possibly random whether true or false
     this.resetBoard();
     this.initializeButtons();
     this.player = new Player(); // Create new player
@@ -36,7 +43,7 @@ public class Board {
 /**
   * Clears board to restart the game
   */
-  public void resetBoard() {
+  private void resetBoard() {
     print("New game started.\n");
     boardState = new States[9];
     for (int i = 0; i < 9; ++i) {
@@ -86,7 +93,7 @@ public class Board {
 /**
   * Draws the X's and O's onto the board
   */
-  public void drawShapes() {
+  private void drawShapes() {
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         if (this.boardState[i * 3 + j] == States.X) { // Draw X's consisting of two diagonal lines
@@ -104,7 +111,7 @@ public class Board {
 /**
   * Fills the correct button for the AI's choice with the opposite state as the player
   */
-  public void aiTurn() {
+  private void aiTurn() {
     int count = 0; // Number of empty squares found
     int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
     for (int i = 0; i < 9; i++) {
@@ -193,7 +200,7 @@ public class Board {
 /**
   * Checks if either X won, O won, or if it's a tie
   */
-  public boolean checkGameOver() {
+  private boolean checkGameOver() {
     if (this.returnWinner() != States.EMPTY) {
       this.gameover = true;
       print("Game is over.\n");
