@@ -213,6 +213,12 @@ public class Board {
       else
          print("O won.\n");
       print("It took " + this.countTurns(this.returnWinner()) + " turns to win.\n");
+      if (this.returnWinner() == player.getXO()) { // Check if the winner is the player
+        print("You win. You are a master at tic-tac-toe."); // "compliment their mastery of tic-tac-toe"
+      } // End if
+      else {
+        print("You lose. Have you never played before?."); // "display a snarky remark about the user’s ability"
+      } // End else
       return true;
     }// Finish win checking
     return false;
