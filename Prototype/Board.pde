@@ -25,8 +25,9 @@ public class Board {
   */
   private Player player;
   
-/**
-  * Default board constructor
+  /**
+  * Default Board constructor.
+  * Sets all member variables.
   */
   public Board() {
     this.gameover = false;
@@ -39,9 +40,9 @@ public class Board {
     } // End if
   } // End board constructor
   
-  // Resets the boardState to all empty squares (States.EMPTY)
-/**
-  * Clears board to restart the game
+  /**
+  * Clears board to start or restart the game.
+  * Resets the boardState to all empty squares (States.EMPTY).
   */
   private void resetBoard() {
     print("New game started.\n");
@@ -51,9 +52,8 @@ public class Board {
     }// End boardState assignment for-loop
   }// End resetBoard() function
   
-  // Create 9 buttons with their coordinates
-/**
-  * Initalizes the buttons to start the game
+  /**
+  * Initalizes 9 buttons for the game to use to get user input.
   */
   private void initializeButtons() {
     this.allButtons = new Button[9];
@@ -64,9 +64,8 @@ public class Board {
     }// End button initalization for width
   }// End initalizeButtons() funciton
   
-  // Draws the lines that make up the board's grid
-/**
-  * Draws the lines on the board to seperate the buttons
+  /**
+  * Draws the lines that make up the board's grid which seperate the buttons.
   */
   private void drawLines() {
     for (int i = 0; i < 3; i++) {
@@ -75,11 +74,11 @@ public class Board {
     }// Finish line drawing
   }// End drawLines() function
   
-  // Returns index of button that the mouse cursor is currently hovering over
-  // To do this, it calls isInside() of each of the 9 buttons with the mouse's current coordinates and return the index of the button whose isInside() function returns true.
-  // If the mouse is not hovering over a button (this should not be possible, as the entire board should be covered with buttons), return -1.
-/**
-  * Checks to see what button the user is hovering over
+  /**
+  * Returns index of button that the mouse cursor is currently hovering over.
+  * To do this, it calls isInside() of each of the 9 buttons with the mouse's current coordinates and return the index of the button whose isInside() function returns true.
+  * If the mouse is not hovering over a button (this should not be possible, as the entire board should be covered with buttons), return -1.
+  * @return The index of the button that the mouse is hovering over, or -1 if none.
   */
   public int getUserInput() {
      for (int i = 0; i < 9; i++) {
@@ -89,8 +88,7 @@ public class Board {
      return -1; // Return -1 if mouse is not hovering over a button.
   }// End getUserInput() function
   
-  // Draws all X's and O's on the board.
-/**
+  /**
   * Draws the X's and O's onto the board
   */
   private void drawShapes() {
@@ -107,9 +105,9 @@ public class Board {
     }// End width choie row 
   }// End drawShapes() function
   
-  // The AI makes a turn in a random empty square
-/**
-  * Fills the correct button for the AI's choice with the opposite state as the player
+  /**
+  * The AI makes a turn in a random empty square.
+  * Fills the correct button for the AI's choice with the opposite state as the player.
   */
   private void aiTurn() {
     int count = 0; // Number of empty squares found
@@ -126,7 +124,6 @@ public class Board {
       aiTurn = States.O;
     else
       aiTurn = States.X;
-      
     if (count == 0) {
       print("No more moves possible.\n");
     }
@@ -136,30 +133,30 @@ public class Board {
     }// Places AI's move on board
   }// End aiTurn() function
   
-  // Calls functions to draw the lines (the grid) and shapes (X's and O's) of the board.
-/**
+  /**
   * Draws the board with the lines and shapes
+  * It calls functions to draw the lines (the grid) and shapes (X's and O's) of the board.
   */
   public void drawBoard() {
     this.drawLines();
     this.drawShapes();
   }// End drawBoard() function
   
-  // Checks if the button specified by buttonIndex is empty
-/**
-  * Checks if the button spot is empty
+  /**
+  * Checks if the button specified by buttonIndexis empty.
+  * @param buttonIndex The index of a button that corresponds to a space on the board.
+  * @return Whether the spot on the board at index buttonIndex is empty or not.
   */
   private boolean validInput(int buttonIndex) {
     return (boardState[buttonIndex] == States.EMPTY);
   }// End validInput() function
   
-  // Checks if a player won
-  // If X won, return States.X
-  // If O won, return States.O
-  // If neither won, return States.EMPTY
-  // Consider modifying this to use the member variables 
-/**
-  *Checks if either X won, O won or if it's a tie
+  /**
+  * Checks if either X won, O won, or if it's a tie.
+  * If X won, return States.X
+  * If O won, return States.O
+  * If neither won, return States.EMPTY
+  * @return The state of the player that won, or States.EMPTY if neither won.
   */
   private States returnWinner() {
     for (int i = 0; i < 3; ++i) {
@@ -193,12 +190,11 @@ public class Board {
        (((this.boardState[2] == this.boardState[4]) && (this.boardState[4] == this.boardState[6]))))
        return this.boardState[2];
     return States.EMPTY;
-  }// Finish returnWinner() function
+  }// End returnWinner() function
   
-  // Returns if the game is over and displays who won if the game is over.
-  // Consider modifying this to use the member variables
-/**
-  * Checks if either X won, O won, or if it's a tie
+  /**
+  * Checks if either X won, O won, or if it's a tie and displays who won if the game is over.
+  * @return Whether the game is over.
   */
   private boolean checkGameOver() {
     if (this.returnWinner() != States.EMPTY) {
@@ -231,7 +227,10 @@ public class Board {
     return false;
   }// End checkGameOver() function
   
-  // Returns whether game has ended in a tie.
+  /**
+  * Returns whether the game has ended in a tie.
+  * @return Whether the game has ended in a tie.
+  */
   private boolean isTie() {
     boolean isTie = true;
     for (int i = 0; i < 9; ++i) {
@@ -244,6 +243,8 @@ public class Board {
   
   /**
   * Counts number of squares on the board that have the state stateToCount.
+  * @param stateToCount The type of square state that will be totaled up.
+  * @return The number of times stateToCount was found on the board.
   */
   private int countTurns(States stateToCount) {
     int noTurns = 0;
@@ -255,10 +256,9 @@ public class Board {
     return noTurns;
   } // End countTurns() function
   
-  // Lets the player make a turn if the game isn't over. After the play makes a turn, let the AI make a turn if the game still isn't over.
-  // Consider modifying this to use the member variables
-/**
+  /**
   * Lets player and AI make a turn if the game has not yet finished
+  * @param buttonIndex The index of the button that the player will attempt to make a move on.
   */
   public void makeTurn(int buttonIndex) {
     if (this.gameover) {
