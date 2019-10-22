@@ -37,6 +37,7 @@ public class Board {
   * Clears board to restart the game
   */
   public void resetBoard() {
+    print("New game started.\n");
     boardState = new States[9];
     for (int i = 0; i < 9; ++i) {
       boardState[i] = States.EMPTY;
@@ -209,17 +210,17 @@ public class Board {
       else {
         print("You lose. Have you never played before?\n"); // "display a snarky remark about the user’s ability"
       } // End else
-      print("Press any square to start another game.\n");
+      print("Press any square to start another game, or you can exit.\n");
       return true;
     }// Finish win checking
     else {
       // Check if game ends in a tie.
       if (this.isTie()) {
         print("It's a tie.\n");
-        print("Press any square to start another game.\n");
+        print("Press any square to start another game, or you can exit.\n");
         this.gameover = true;
-      }
-    }
+      } // End if
+    } // End else
     return false;
   }// End checkGameOver() function
   
