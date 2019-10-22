@@ -120,9 +120,7 @@ public class Board {
       aiTurn = States.X;
       
     if (count == 0) {
-      this.gameover = true;
       print("No more moves possible.\n");
-      print("Press any square to start another game.");
     }
     else {
       boardState[randomButton] = aiTurn;
@@ -198,10 +196,12 @@ public class Board {
     if (this.returnWinner() != States.EMPTY) {
       this.gameover = true;
       print("Game is over.\n");
-      if (this.returnWinner() == States.X)
+      if (this.returnWinner() == States.X) {
          print("X won.\n");
-      else
+      } // End if
+      else {
          print("O won.\n");
+      } // End else
       print("It took " + this.countTurns(this.returnWinner()) + " turns to win.\n");
       if (this.returnWinner() == player.getXO()) { // Check if the winner is the player
         print("You win. You are a master at tic-tac-toe.\n"); // "compliment their mastery of tic-tac-toe"
@@ -212,8 +212,27 @@ public class Board {
       print("Press any square to start another game.\n");
       return true;
     }// Finish win checking
+    else {
+      // Check if game ends in a tie.
+      if (this.isTie()) {
+        print("It's a tie.\n");
+        print("Press any square to start another game.\n");
+        this.gameover = true;
+      }
+    }
     return false;
   }// End checkGameOver() function
+  
+  // Returns whether game has ended in a tie.
+  private boolean isTie() {
+    boolean isTie = true;
+    for (int i = 0; i < 9; ++i) {
+      if (this.boardState[i] == States.EMPTY) {
+        isTie = false;
+      } // End if
+    } // End for
+    return isTie;
+  } // End isTie() function
   
   /**
   * Counts number of squares on the board that have the state stateToCount.
