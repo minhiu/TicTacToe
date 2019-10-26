@@ -115,16 +115,16 @@ public class Board {
         ++count;
       }// Finish adding up all remaining open board states
     }// Checks board states left
-    int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-    States aiTurn; // Assigning AI Opposite sign with player
-    if (player.getXO() == States.X)
-      aiTurn = States.O;
-    else
-      aiTurn = States.X;
     if (count == 0) {
       print("No more moves possible.\n");
     }
     else {
+      int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+      States aiTurn; // Assigning AI Opposite sign with player
+      if (player.getXO() == States.X)
+        aiTurn = States.O;
+      else
+        aiTurn = States.X;
       boardState[randomButton] = aiTurn;
       print("AI made a move on square " + (randomButton + 1) + "\n");
     }// Places AI's move on board
