@@ -25,6 +25,7 @@ public class Player {
       this.setXO(States.O);
     else
       this.setXO(States.X);
+    //this.setXO(States.O);
   }
   
   /**
