@@ -75,7 +75,6 @@ public class Button
  /**
   * Draws the button's state (States.X or States.O).
   */
- 
   public void drawShape() {
      if (this.getState() == States.X) { // Draw X's consisting of two diagonal lines
        line(this.getXCoordinate(), this.getYCoordinate(), this.getXCoordinate() + this.getWidth(), this.getYCoordinate() + this.getHeight());
@@ -85,8 +84,6 @@ public class Button
        circle(this.getXCoordinate() + (SQUARE_SIZE * 0.5), this.getYCoordinate() + (SQUARE_SIZE * 0.5), SQUARE_SIZE);
      }
  }
- 
- 
  
  /**
    * Displays the button with the coordinates and size as determined
