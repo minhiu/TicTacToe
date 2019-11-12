@@ -10,10 +10,6 @@ public class Board {
   */
   private boolean gameover;
   /**
-   The squares on the board.
-  */
-  private States[] boardState;
-  /**
    The buttons on the board.
   */
   private Button[] allButtons;
@@ -28,8 +24,8 @@ public class Board {
   */
   public Board() {
     this.gameover = false;
-    this.resetBoard();
-    this.initializeButtons();
+    //sthis.resetBoard();
+    this.resetButtons();
     this.player = new Player(); // Create new player
     this.player.assignXO(); // Assign a random sign for player
     if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
@@ -39,27 +35,32 @@ public class Board {
   
   /**
   * Clears board to start or restart the game.
-  * Resets the boardState to all empty squares (States.EMPTY).
+  * Resets allButtons to all empty squares (States.EMPTY).
   */
-  private void resetBoard() {
-    print("New game started.\n");
-    boardState = new States[9];
-    for (int i = 0; i < 9; ++i) {
-      boardState[i] = States.EMPTY;
-    }// End boardState assignment for-loop
-  }// End resetBoard() function
+  private void resetButtons() {
+    this.allButtons = new Button[9];
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        this.allButtons[i * 3 + j] = new Button(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE, SQUARE_SIZE, "b" + i * 3 + j + 1, States.EMPTY);
+        this.allButtons[i * 3 + j].setState(States.EMPTY);
+      }// End button initalization for height
+    }// End button initalization for width
+  }// End initalizeButtons() funciton
   
   /**
   * Initalizes 9 buttons for the game to use to get user input.
   */
+  /*
   private void initializeButtons() {
     this.allButtons = new Button[9];
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        this.allButtons[i * 3 + j] = new Button(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE, SQUARE_SIZE, "b" + i * 3 + j + 1);
+        this.allButtons[i * 3 + j] = new Button(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE, SQUARE_SIZE, "b" + i * 3 + j + 1, States.EMPTY);
+        this.allButtons[i * 3 + j].setState(States.EMPTY);
       }// End button initalization for height
     }// End button initalization for width
   }// End initalizeButtons() funciton
+  */
   
   /**
   * Draws the lines that make up the board's grid which seperate the buttons.
@@ -91,13 +92,7 @@ public class Board {
   private void drawShapes() {
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
-        if (this.boardState[i * 3 + j] == States.X) { // Draw X's consisting of two diagonal lines
-          line(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE * (j + 1), SQUARE_SIZE * (i + 1));
-          line(SQUARE_SIZE * j, SQUARE_SIZE * (i + 1), SQUARE_SIZE * (j + 1), SQUARE_SIZE * i);
-        }// End draw X
-        else if (this.boardState[i * 3 + j] == States.O) { // Draw O's consisting of a circle
-          circle(SQUARE_SIZE * j + (SQUARE_SIZE * 0.5), SQUARE_SIZE * i + (SQUARE_SIZE * 0.5), SQUARE_SIZE);
-        }// End draw O     
+        this.allButtons[3 * i + j].drawShape();  
       }// End height choice collum
     }// End width choie row 
   }// End drawShapes() function
@@ -106,6 +101,7 @@ public class Board {
   * The AI makes a turn in a random empty square.
   * Fills the correct button for the AI's choice with the opposite state as the player.
   */
+  /*
   private void aiTurn() {
     int count = 0; // Number of empty squares found
     int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
@@ -129,6 +125,70 @@ public class Board {
       print("AI made a move on square " + (randomButton + 1) + "\n");
     }// Places AI's move on board
   }// End aiTurn() function
+  */
+  
+ /**
+  * The AI makes a turn in a empty square that is most optimal.
+  * Fills the correct button for the AI's choice with the opposite state as the player.
+  */
+  private void aiTurn() {
+    int bestScore = -1;
+    int bestIndex = -1;
+    States aiTurn = ((player.getXO() == States.X) ? States.O : States.X);
+    for (int i = 0; i < 9; ++i) {
+      if (this.allButtons[i].getState() == States.EMPTY) {
+        this.allButtons[i].setState(aiTurn);
+        int score = this.aiTurnMinimax(this.allButtons, aiTurn, false);
+        //print("Square " + (i + 1) + " score: " + score + "\n");
+        this.allButtons[i].setState(States.EMPTY);
+        if (score > bestScore) {
+          bestScore = score;
+          bestIndex = i;
+        }
+      }
+    }
+    if (bestIndex != -1) {
+      this.allButtons[bestIndex].setState(aiTurn);
+      print("AI made a move on square " + (bestIndex + 1) + "\n");
+    }
+    else {
+      print("No more moves possible.\n");
+    }
+  }
+  
+ /**
+  * Uses Minimax algorithm to determine optimal space to use.
+  * @return 1 if the current board space will result in a win, 0 if it will result in a tie, -1 if it will result in a loss.
+  */
+  private int aiTurnMinimax(Button[] newButtons, States playerWeWantToWin, boolean isMax) {
+    States otherPlayer = ((playerWeWantToWin == States.X) ? States.O : States.X);
+    if (this.returnWinner(newButtons) == playerWeWantToWin) {
+      return 1;
+    }
+    else if (this.returnWinner(newButtons) == otherPlayer) {
+      return -1;
+    }
+    else if (this.isTie(newButtons)) {
+      return 0;
+    }
+    int best = -2 * (isMax ? 1 : -1);
+    States currentMove = (isMax ? playerWeWantToWin : otherPlayer);
+    int score = 0;
+    for (int i = 0; i < 9; ++i) {
+      if (newButtons[i].getState() == States.EMPTY) {
+        this.allButtons[i].setState(currentMove);
+        score = this.aiTurnMinimax(this.allButtons, playerWeWantToWin, !isMax);
+        if (isMax) {
+          best = max(best, score);
+        }
+        else {
+          best = min(best, score);
+        }
+        this.allButtons[i].setState(States.EMPTY);
+      }
+    }
+    return best;
+  }
   
   /**
   * Draws the board with the lines and shapes
@@ -145,8 +205,9 @@ public class Board {
   * @return Whether the spot on the board at index buttonIndex is empty or not.
   */
   private boolean validInput(int buttonIndex) {
-    return (boardState[buttonIndex] == States.EMPTY);
+    return (this.allButtons[buttonIndex].getState() == States.EMPTY);
   }// End validInput() function
+  
   
   /**
   * Checks if either X won, O won, or if it's a tie.
@@ -156,36 +217,47 @@ public class Board {
   * @return The state of the player that won, or States.EMPTY if neither won.
   */
   private States returnWinner() {
+    return this.returnWinner(this.allButtons); 
+  }
+    
+  /**
+  * Checks if either X won, O won, or if it's a tie.
+  * If X won, return States.X
+  * If O won, return States.O
+  * If neither won, return States.EMPTY
+  * @return The state of the player that won, or States.EMPTY if neither won.
+  */
+  private States returnWinner(Button [] buttonsToCheck) {
     for (int i = 0; i < 3; ++i) {
       // Check for matching rows
       // 0 1 2
       // 3 4 5
       // 6 7 8
-      if (this.boardState[i * 3] != States.EMPTY && this.boardState[i * 3 + 1] != States.EMPTY && this.boardState[i * 3 + 2] != States.EMPTY) {
-        if ((this.boardState[i * 3] == this.boardState[i * 3 + 1]) && (this.boardState[i * 3 + 1] == this.boardState[i * 3 + 2])) {
-          return this.boardState[i * 3];
+      if (buttonsToCheck[i * 3].getState() != States.EMPTY && buttonsToCheck[i * 3 + 1].getState() != States.EMPTY && buttonsToCheck[i * 3 + 2].getState() != States.EMPTY) {
+        if ((buttonsToCheck[i * 3].getState() == buttonsToCheck[i * 3 + 1].getState()) && (this.allButtons[i * 3 + 1].getState() == buttonsToCheck[i * 3 + 2].getState())) {
+          return buttonsToCheck[i * 3].getState();
         }// Moves down from top
       }// Finish checking matching rows
       // Checking for matching columns
       // 0 3 6
       // 1 4 7
       // 2 5 8
-      if (this.boardState[i] != States.EMPTY && this.boardState[i + 3] != States.EMPTY && this.boardState[i + 6] != States.EMPTY) {
-        if ((this.boardState[i] == this.boardState[i + 3]) && (this.boardState[i + 3] == this.boardState[i + 6])) {
-          return this.boardState[i];
+      if (buttonsToCheck[i].getState() != States.EMPTY && buttonsToCheck[i + 3].getState() != States.EMPTY && buttonsToCheck[i + 6].getState() != States.EMPTY) {
+        if ((buttonsToCheck[i].getState() == buttonsToCheck[i + 3].getState()) && (buttonsToCheck[i + 3].getState() == buttonsToCheck[i + 6].getState())) {
+          return buttonsToCheck[i].getState();
         }// Moves right from top
       }// Finish checking matching collums
     }
     // Checking for matching diagonial top left to bottom right
     // 0 4 8
-    if ((this.boardState[0] != States.EMPTY && this.boardState[4] != States.EMPTY && this.boardState[8] != States.EMPTY) && 
-       ((this.boardState[0] == this.boardState[4]) && (this.boardState[4] == this.boardState[8])))
-       return this.boardState[0];
+    if ((buttonsToCheck[0].getState() != States.EMPTY && buttonsToCheck[4].getState() != States.EMPTY && buttonsToCheck[8].getState() != States.EMPTY) && 
+       ((buttonsToCheck[0].getState() == buttonsToCheck[4].getState()) && (buttonsToCheck[4].getState() == buttonsToCheck[8].getState())))
+       return buttonsToCheck[0].getState();
     // Checking for matching diagonal top right to bottom left
     // 2 4 6
-    if ((this.boardState[2] != States.EMPTY && this.boardState[4] != States.EMPTY && this.boardState[6] != States.EMPTY) && 
-       (((this.boardState[2] == this.boardState[4]) && (this.boardState[4] == this.boardState[6]))))
-       return this.boardState[2];
+    if ((buttonsToCheck[2].getState() != States.EMPTY && buttonsToCheck[4].getState() != States.EMPTY && buttonsToCheck[6].getState() != States.EMPTY) && 
+       (((buttonsToCheck[2].getState() == buttonsToCheck[4].getState()) && (buttonsToCheck[4].getState() == buttonsToCheck[6].getState()))))
+       return buttonsToCheck[2].getState();
     return States.EMPTY;
   }// End returnWinner() function
   
@@ -224,14 +296,22 @@ public class Board {
     return false;
   }// End checkGameOver() function
   
-  /**
+    /**
   * Returns whether the game has ended in a tie.
   * @return Whether the game has ended in a tie.
   */
   private boolean isTie() {
+    return this.isTie(this.allButtons);
+  }
+  
+  /**
+  * Returns whether the game has ended in a tie.
+  * @return Whether the game has ended in a tie.
+  */
+  private boolean isTie(Button[] buttonsToCheck) {
     boolean isTie = true;
     for (int i = 0; i < 9; ++i) {
-      if (this.boardState[i] == States.EMPTY) {
+      if (buttonsToCheck[i].getState() == States.EMPTY) {
         isTie = false;
       } // End if
     } // End for
@@ -246,7 +326,7 @@ public class Board {
   private int countTurns(States stateToCount) {
     int noTurns = 0;
     for (int i = 0; i < 9; ++i) {
-      if (this.boardState[i] == stateToCount) {
+      if (this.allButtons[i].getState() == stateToCount) {
         ++noTurns;
       } // End if statement
     } // End for statement
@@ -260,7 +340,7 @@ public class Board {
   public void makeTurn(int buttonIndex) {
     if (this.gameover) {
       this.gameover = false;
-      this.resetBoard();
+      this.resetButtons();
       this.player.assignXO(); // Assign a random sign for player
       if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
         this.aiTurn();
@@ -269,7 +349,7 @@ public class Board {
     else {
       if (!this.checkGameOver()) {
         if (this.validInput(buttonIndex)) {
-           this.boardState[buttonIndex] = player.getXO();
+           this.allButtons[buttonIndex].setState(player.getXO());
            if (!this.checkGameOver()) {
              this.aiTurn();
              this.checkGameOver();
@@ -294,12 +374,12 @@ public class Board {
    * Gets Board's state as a String.
    * @return Board's state as a String.
    */
-  public String getBoardStateString()  {
+  public String getAllButtonsString()  {
     String output = "";
     for (int i = 0; i < 9; i++) {
-        if (this.boardState[i] == States.EMPTY)
+        if (this.allButtons[i].getState() == States.EMPTY)
           output += "_ ";
-        else if (this.boardState[i] == States.X)
+        else if (this.allButtons[i].getState() == States.X)
           output += "X ";
         else
           output += "O ";
@@ -307,7 +387,7 @@ public class Board {
           output += "\n";
     }
     return output;
-  } // End getBoardStateString() function
+  } // End getAllButtonsString() function
   
   /**
    * Gets all of the button's outputs of their toString() methods and combines them.
@@ -334,7 +414,7 @@ public class Board {
   * @return String with info about the Board.
   */
   public String toString() {
-    return ("Gameover=" + (this.getGameover() ? "true" : "false") + " Board state="  + this.getBoardStateString() + " Buttons:" + this.getButtonText() + " PlayerXO=" + ((this.getPlayer().getXO() == States.X) ? "X" : "O") + "\n");
+    return ("Gameover=" + (this.getGameover() ? "true" : "false") + " Board state="  + this.getAllButtonsString() + " Buttons:" + this.getButtonText() + " PlayerXO=" + ((this.getPlayer().getXO() == States.X) ? "X" : "O") + "\n");
   } // End toString() function
  
   /**
@@ -342,6 +422,6 @@ public class Board {
   * @return whether two board are equal.
   */
   public boolean equals(Board otherBoard) {
-    return (this.getGameover() == otherBoard.getGameover() && this.getBoardStateString() == otherBoard.getBoardStateString() && this.getButtonText() == otherBoard.getButtonText() && this.getPlayer() == otherBoard.getPlayer());
+    return (this.getGameover() == otherBoard.getGameover() && this.getAllButtonsString() == otherBoard.getAllButtonsString() && this.getButtonText() == otherBoard.getButtonText() && this.getPlayer() == otherBoard.getPlayer());
   } // End equals(...) function
 }// End Board class
