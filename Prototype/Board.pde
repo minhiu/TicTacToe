@@ -39,10 +39,10 @@ public class Board {
   */
   private void resetButtons() {
     this.allButtons = new Button[9];
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
-        this.allButtons[i * 3 + j] = new Button(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE, SQUARE_SIZE, "b" + i * 3 + j + 1, States.EMPTY);
-        this.allButtons[i * 3 + j].setState(States.EMPTY);
+    for (int i = 1; i < 4; i++) {
+      for (int j = 1; j < 4; j++) {
+        this.allButtons[(i - 1) * 3 + (j - 1)] = new Button(SQUARE_SIZE * j, SQUARE_SIZE * i, SQUARE_SIZE, SQUARE_SIZE, "b" + i * 3 + j + 1, States.EMPTY);
+        this.allButtons[(i - 1) * 3 + (j - 1)].setState(States.EMPTY);
       }// End button initalization for height
     }// End button initalization for width
   }// End initalizeButtons() funciton
@@ -66,9 +66,9 @@ public class Board {
   * Draws the lines that make up the board's grid which seperate the buttons.
   */
   private void drawLines() {
-    for (int i = 0; i < 3; i++) {
-      line (i * SQUARE_SIZE, 0, i * SQUARE_SIZE, height); // Draws vertical lines
-      line (0, i * SQUARE_SIZE, width, i * SQUARE_SIZE);  // Draws horizontal lines
+    for (int i = 1; i < 5; i++) {
+      line (i * SQUARE_SIZE, SQUARE_SIZE, i * SQUARE_SIZE, SQUARE_SIZE * 4); // Draws vertical lines
+      line (SQUARE_SIZE, i * SQUARE_SIZE, SQUARE_SIZE * 4, i * SQUARE_SIZE);  // Draws horizontal lines
     }// Finish line drawing
   }// End drawLines() function
   
@@ -205,6 +205,8 @@ public class Board {
   * @return Whether the spot on the board at index buttonIndex is empty or not.
   */
   private boolean validInput(int buttonIndex) {
+    if (buttonIndex == -1)
+      return false;
     return (this.allButtons[buttonIndex].getState() == States.EMPTY);
   }// End validInput() function
   

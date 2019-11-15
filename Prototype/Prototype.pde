@@ -7,7 +7,7 @@
 //import java.util.*;
 
 final int INITIAL_FRAMERATE = 60;
-final int SQUARE_SIZE = 200; // Size of the buttons and squares
+final int SQUARE_SIZE = 100; // Size of the buttons and squares
 
 Board board = new Board();
 
@@ -16,7 +16,7 @@ Board board = new Board();
  */
 void setup() {
   // Make window
-  size(600, 600);
+  size(500, 500);
   frameRate(INITIAL_FRAMERATE);
 } // End setup() function
 
