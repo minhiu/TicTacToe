@@ -97,16 +97,25 @@ public class Board {
     }// End width choie row 
   }// End drawShapes() function
   
+  private void aiTurn() {
+    if (AI_PLAY_STYLE == 1) {
+        aiTurnSmart();
+    }
+    else{
+      aiTurnRandom();
+    }
+  }
+  
   /**
   * The AI makes a turn in a random empty square.
   * Fills the correct button for the AI's choice with the opposite state as the player.
   */
-  /*
-  private void aiTurn() {
+  
+  private void aiTurnRandom() {
     int count = 0; // Number of empty squares found
     int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
     for (int i = 0; i < 9; i++) {
-      if (boardState[i] == States.EMPTY) {
+      if (this.allButtons[i].getState() == States.EMPTY) {
         possibleStates[count] = i;
         ++count;
       }// Finish adding up all remaining open board states
@@ -121,17 +130,16 @@ public class Board {
         aiTurn = States.O;
       else
         aiTurn = States.X;
-      boardState[randomButton] = aiTurn;
+      this.allButtons[randomButton].setState(aiTurn);
       print("AI made a move on square " + (randomButton + 1) + "\n");
     }// Places AI's move on board
   }// End aiTurn() function
-  */
   
  /**
   * The AI makes a turn in a empty square that is most optimal.
   * Fills the correct button for the AI's choice with the opposite state as the player.
   */
-  private void aiTurn() {
+  private void aiTurnSmart() {
     int bestScore = -1;
     int bestIndex = -1;
     States aiTurn = ((player.getXO() == States.X) ? States.O : States.X);
