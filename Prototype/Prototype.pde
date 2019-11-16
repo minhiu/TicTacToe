@@ -1,4 +1,4 @@
-/**A processing program to TicTacToe.
+ /**A processing program to TicTacToe.
    Homework Assignment: TicTacToe Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
    @version 1.0 10/22/2019
@@ -8,6 +8,7 @@
 
 final int INITIAL_FRAMERATE = 60;
 final int SQUARE_SIZE = 100; // Size of the buttons and squares
+final int AI_PLAY_STYLE = 2; // 0 = dumb (random), 1 = smart, 2 = smart and unpredictable
 
 Board board = new Board();
 

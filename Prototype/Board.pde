@@ -97,16 +97,28 @@ public class Board {
     }// End width choie row 
   }// End drawShapes() function
   
+  private void aiTurn() {
+    if (AI_PLAY_STYLE == 1) {
+      aiTurnSmart();
+    }
+    else if (AI_PLAY_STYLE == 2) {
+      aiTurnSmartAndUnpredictable();
+    }
+    else {
+      aiTurnRandom();
+    }
+  }
+  
   /**
   * The AI makes a turn in a random empty square.
   * Fills the correct button for the AI's choice with the opposite state as the player.
   */
-  /*
-  private void aiTurn() {
+  
+  private void aiTurnRandom() {
     int count = 0; // Number of empty squares found
     int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
     for (int i = 0; i < 9; i++) {
-      if (boardState[i] == States.EMPTY) {
+      if (this.allButtons[i].getState() == States.EMPTY) {
         possibleStates[count] = i;
         ++count;
       }// Finish adding up all remaining open board states
@@ -121,17 +133,16 @@ public class Board {
         aiTurn = States.O;
       else
         aiTurn = States.X;
-      boardState[randomButton] = aiTurn;
+      this.allButtons[randomButton].setState(aiTurn);
       print("AI made a move on square " + (randomButton + 1) + "\n");
     }// Places AI's move on board
   }// End aiTurn() function
-  */
   
  /**
   * The AI makes a turn in a empty square that is most optimal.
   * Fills the correct button for the AI's choice with the opposite state as the player.
   */
-  private void aiTurn() {
+  private void aiTurnSmart() {
     int bestScore = -1;
     int bestIndex = -1;
     States aiTurn = ((player.getXO() == States.X) ? States.O : States.X);
@@ -150,6 +161,48 @@ public class Board {
     if (bestIndex != -1) {
       this.allButtons[bestIndex].setState(aiTurn);
       print("AI made a move on square " + (bestIndex + 1) + "\n");
+    }
+    else {
+      print("No more moves possible.\n");
+    }
+  }
+  
+  /**
+  * The AI makes a turn in a empty square that is most optimal.
+  * Fills the correct button for the AI's choice with the opposite state as the player.
+  */
+  private void aiTurnSmartAndUnpredictable() {
+    int bestScore = -1;
+    int bestIndex = -1;
+    States aiTurn = ((player.getXO() == States.X) ? States.O : States.X);
+    int buttonIndiciesByScore[][] = new int[3][9]; // Store button index by score.
+    int noButtonScores[] = {0, 0, 0}; // Number of indicies stored by that a certain score.
+    for (int i = 0; i < 9; ++i) {
+      if (this.allButtons[i].getState() == States.EMPTY) {
+        this.allButtons[i].setState(aiTurn);
+        int score = this.aiTurnMinimax(this.allButtons, aiTurn, false);
+        buttonIndiciesByScore[score + 1][noButtonScores[score + 1]] = i; // Store button index by score.
+        ++noButtonScores[score + 1]; // Increase number of indicies stored by that score.
+        //print("Square " + (i + 1) + " score: " + score + "\n");
+        this.allButtons[i].setState(States.EMPTY);
+        if (score > bestScore) {
+          bestIndex = i;
+        }
+      }
+    }
+    if (bestIndex != -1) {
+      int randomButton;
+      if (noButtonScores[2] > 0) { // Win
+        randomButton = buttonIndiciesByScore[2][(int) random(noButtonScores[2])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+      }
+      else if (noButtonScores[1] > 0) { // Tie
+        randomButton = buttonIndiciesByScore[1][(int) random(noButtonScores[1])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+      }
+      else { // Lose
+        randomButton = buttonIndiciesByScore[0][(int) random(noButtonScores[0])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+      }
+      this.allButtons[randomButton].setState(aiTurn);
+      print("AI made a move on square " + (randomButton + 1) + "\n");
     }
     else {
       print("No more moves possible.\n");
