@@ -333,11 +333,15 @@ public class Board {
   /**
   * Test Mouse Hover
   */
-  void displayBlockingSquare() {
-    if (this.findBlockingSquare() != -1)
-      if ((mouseX != (this.allButtons[this.findBlockingSquare()].getXCoordinate() + 200)) && mouseY != (this.allButtons[this.findBlockingSquare()].getYCoordinate() + 200))
-        print("The bot is about to win if you don't play at square position: " + this.findBlockingSquare() + "\n");
+  public void displayBlockingSquare() {
+    if (this.findBlockingSquare() != -1) {
+      if (this.validInput(this.getUserInput())) {
+        if (this.allButtons[this.getUserInput()].getState() == States.EMPTY) 
+           print("The bot is about to win if you don't play at square position: " + this.findBlockingSquare() + "\n"); 
+      }
+    }
   }
+ 
   /**
   * Draws the board with the lines and shapes
   * It calls functions to draw the lines (the grid) and shapes (X's and O's) of the board.
@@ -507,7 +511,7 @@ public class Board {
         }// End loop for player move check and allows the move
         else
           print("Invalid move.\n");
-        this.displayBlockingSquare();
+          //this.displayBlockingSquare();
       }// End game over check and let's user know thier move is invalid
     }
   }// End makeTurn() function

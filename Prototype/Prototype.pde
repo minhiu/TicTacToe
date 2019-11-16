@@ -27,7 +27,9 @@ void setup() {
 void draw() {
   background(255);
   board.drawBoard();
+  board.displayBlockingSquare();
 }// End draw() function
+
 /**
   * Checks to see if the player pressed a button
   */
