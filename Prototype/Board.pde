@@ -18,6 +18,8 @@ public class Board {
   */
   private Player player;
   
+  private int buttonHovered;
+  
   /**
   * Default Board constructor.
   * Sets all member variables.
@@ -30,6 +32,7 @@ public class Board {
     this.player.assignXO(); // Assign a random sign for player
     if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
         this.aiTurn();
+    this.buttonHovered = -2;
     } // End if
   } // End board constructor
   
@@ -331,16 +334,18 @@ public class Board {
   } // End function findBlockingSquare()
   
   /**
-  * Test Mouse Hover
+  * Display a message if the mouse hovers over EMPTY squares that are not the blocking square
   */
   public void displayBlockingSquare() {
     if (this.findBlockingSquare() != -1) {
       if (this.validInput(this.getUserInput())) {
-        if (this.allButtons[this.getUserInput()].getState() == States.EMPTY) 
-           print("The bot is about to win if you don't play at square position: " + this.findBlockingSquare() + "\n"); 
-      }
-    }
-  }
+        if (this.getUserInput() != buttonHovered && this.getUserInput() != this.findBlockingSquare()) {
+            buttonHovered = getUserInput();            
+            print("The bot is about to win if you don't play at square position: " + this.findBlockingSquare() + "\n"); 
+        } // Stop printing if the mouse stays at the same square
+      } // Stop if the mouse doesn't hover over any squares
+    } // Stop if there's no blocking squares
+  } // End of displayBlockingSquare()
  
   /**
   * Draws the board with the lines and shapes
@@ -511,7 +516,6 @@ public class Board {
         }// End loop for player move check and allows the move
         else
           print("Invalid move.\n");
-          //this.displayBlockingSquare();
       }// End game over check and let's user know thier move is invalid
     }
   }// End makeTurn() function
