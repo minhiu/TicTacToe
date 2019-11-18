@@ -28,6 +28,7 @@ void draw() {
   background(255);
   board.drawBoard();
   board.displayBlockingSquare();
+  board.displayForkBlock();
 }// End draw() function
 
 /**
