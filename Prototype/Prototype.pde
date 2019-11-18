@@ -28,8 +28,9 @@ void setup() {
 void draw() {
   background(255);
   board.drawBoard();
-  board.displayBlockingSquare();
-  board.displayForkBlock();
+  board.detectHovering();
+  //board.displayBlockingSquare();
+  //board.displayForkBlock();
 }// End draw() function
 
 /**

@@ -302,6 +302,16 @@ public class Board {
     return -1;
   } // End function findWinningSquare()
   
+ public void detectHovering() {
+    if (this.getUserInput() != buttonHovered && this.getUserInput() > -1) {
+      buttonHovered = board.getUserInput();
+      //print("You hovered over button " + (buttonHovered + 1) + "\n");
+      // Add your code here that will give the player advice based on the value of buttonHovered.
+      this.displayBlockingSquare();
+      this.displayForkBlock();
+    }
+ }
+  
   /**
   * Display (if possible) an open square that would help the player block the winning of the bot
   * @return the index of the open square if found, otherwise, return -1
@@ -349,12 +359,11 @@ public class Board {
   /**
   * Display a message if the mouse hovers over EMPTY squares that are not the blocking square
   */
-  public void displayBlockingSquare() {
+  private void displayBlockingSquare() {
     if (this.findBlockingSquare() != -1) {
       if (this.validInput(this.getUserInput())) {
-        if (this.getUserInput() != buttonHovered && this.getUserInput() != this.findBlockingSquare()) {
-            buttonHovered = getUserInput();            
-            print("The bot is about to win if you don't play at square position: " + this.findBlockingSquare() + "\n"); 
+        if (this.getUserInput() != this.findBlockingSquare()) {          
+            print("The bot is about to win if you don't play at square position: " + (this.findBlockingSquare() + 1) + "\n"); 
         } // Stop printing if the mouse stays at the same square
       } // Stop if the mouse doesn't hover over any squares
     } // Stop if there's no blocking squares
@@ -466,15 +475,14 @@ public class Board {
     /**
       * Display a message telling the user where to go to block the fork
       */
-    public void displayForkBlock() {
-    if (this.forkBlockDetector() != -1) {
-      if (this.validInput(this.getUserInput())) {
-        if (this.getUserInput() != buttonHovered && this.getUserInput() != this.findBlockingSquare()) {
-            buttonHovered = getUserInput();            
-            print("The AI will make a fork if you don't go : " + (this.forkBlockDetector() + 1) + "\n"); 
-        } // Stop printing if the mouse stays hovered
-      } // Stop if the mouse doesn'y hover any open squares
-    } // Stop if there's no forks
+    private void displayForkBlock() {
+      if (this.forkBlockDetector() != -1) {
+        if (this.validInput(this.getUserInput())) {
+          if (this.getUserInput() != this.forkBlockDetector()) {          
+              print("The AI will make a fork if you don't go : " + (this.forkBlockDetector() + 1) + "\n"); 
+          } // Stop printing if the mouse stays hovered
+        } // Stop if the mouse doesn'y hover any open squares
+      } // Stop if there's no forks
   } // End of displayForkBlock()
   /**
   * Draws the board with the lines and shapes
