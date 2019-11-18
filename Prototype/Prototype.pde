@@ -9,6 +9,7 @@
 final int INITIAL_FRAMERATE = 60;
 final int SQUARE_SIZE = 100; // Size of the buttons and squares
 final int AI_PLAY_STYLE = 2; // 0 = dumb (random), 1 = smart, 2 = smart and unpredictable
+final boolean DEBUG = false;
 
 Board board = new Board();
 

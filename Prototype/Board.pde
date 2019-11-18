@@ -19,6 +19,7 @@ public class Board {
   private Player player;
   
   private int buttonHovered;
+  private boolean isPlayerTurn;
   
   /**
   * Default Board constructor.
@@ -31,9 +32,16 @@ public class Board {
     this.player = new Player(); // Create new player
     this.player.assignXO(); // Assign a random sign for player
     if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
-        this.aiTurn();
-    this.buttonHovered = -2;
+      this.aiTurn();
+      this.isPlayerTurn = DEBUG ? false : true;
+      print("You are O and the AI is X.\n");
     } // End if
+    else {
+      this.isPlayerTurn = true;
+      print("You are X and the AI is O.\n");
+    }
+    print("X goes first.\n");
+    this.buttonHovered = -2;
   } // End board constructor
   
   /**
@@ -101,14 +109,19 @@ public class Board {
   }// End drawShapes() function
   
   private void aiTurn() {
-    if (AI_PLAY_STYLE == 1) {
-      aiTurnSmart();
-    }
-    else if (AI_PLAY_STYLE == 2) {
-      aiTurnSmartAndUnpredictable();
+    if (DEBUG) {
+      this.isPlayerTurn = !this.isPlayerTurn;
     }
     else {
-      aiTurnRandom();
+      if (AI_PLAY_STYLE == 1) {
+        aiTurnSmart();
+      }
+      else if (AI_PLAY_STYLE == 2) {
+        aiTurnSmartAndUnpredictable();
+      }
+      else {
+        aiTurnRandom();
+      }
     }
   }
   
@@ -458,7 +471,7 @@ public class Board {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != buttonHovered && this.getUserInput() != this.findBlockingSquare()) {
             buttonHovered = getUserInput();            
-            print("The AI will make a fork if you don't go : " + this.forkBlockDetector() + "\n"); 
+            print("The AI will make a fork if you don't go : " + (this.forkBlockDetector() + 1) + "\n"); 
         } // Stop printing if the mouse stays hovered
       } // Stop if the mouse doesn'y hover any open squares
     } // Stop if there's no forks
@@ -613,22 +626,42 @@ public class Board {
   * @param buttonIndex The index of the button that the player will attempt to make a move on.
   */
   public void makeTurn(int buttonIndex) {
+    if (DEBUG) {
+      if (this.isPlayerTurn)
+        print("AI (" + ((this.player.getXO() == States.O) ? "X" : "O") + ")" );
+      else
+        print("Player (" + ((this.player.getXO() == States.X) ? "X" : "O") + ")" );
+      print(" goes next.\n");
+    }
     if (this.gameover) {
       this.gameover = false;
       this.resetButtons();
       this.player.assignXO(); // Assign a random sign for player
       if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
         this.aiTurn();
+        this.isPlayerTurn = DEBUG ? false : true;
+        print("You are O and the AI is X.\n");
+      } // End if
+      else {
+        this.isPlayerTurn = true;
+        print("You are X and the AI is O.\n");
       }
+      print("X goes first.\n");
     }
     else {
       if (!this.checkGameOver()) {
         if (this.validInput(buttonIndex)) {
-           this.allButtons[buttonIndex].setState(player.getXO());
+          
+           States aiState = (player.getXO() == States.X) ? States.O : States.X;
+           States playerTurn = this.isPlayerTurn ? player.getXO() : aiState;
+           
+           this.allButtons[buttonIndex].setState(playerTurn);
            if (!this.checkGameOver()) {
              this.aiTurn();
              this.checkGameOver();
            }// End loop for AI move check and allows the move
+           
+           
         }// End loop for player move check and allows the move
         else
           print("Invalid move.\n");
