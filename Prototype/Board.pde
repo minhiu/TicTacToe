@@ -350,8 +350,8 @@ public class Board {
     // Check if the AI is about to win
     if (this.findBlockingSquare(true) != -1) {
       if (this.validInput(this.getUserInput())) {
-        if (this.getUserInput() != this.findBlockingSquare(true)) {          
-            print("The AI is about to win if you don't play at square position: " + (this.findBlockingSquare(true) + 1) + "\n"); 
+        if (this.getUserInput() != this.findBlockingSquare(true)) {     
+          print("The AI is about to win if you don't play at square position: " + (this.findBlockingSquare(true) + 1) + "\n"); 
         } // Stop printing if the mouse stays at the same square
       } // Stop if the mouse doesn't hover over any squares
     } // Stop if there's no blocking squares
@@ -359,8 +359,12 @@ public class Board {
     // Check if the player is about to win
     if (this.findBlockingSquare(false) != -1) {
       if (this.validInput(this.getUserInput())) {
-        if (this.getUserInput() != this.findBlockingSquare(false)) {          
-            print("You can make at this square position to win the game: " + (this.findBlockingSquare(false) + 1) + "\n"); 
+        if (this.getUserInput() != this.findBlockingSquare(false)) {
+          if (DEBUG)
+            print("The human player");
+          else
+            print("You");
+          print(" can make a move at this square position to win the game: " + (this.findBlockingSquare(false) + 1) + "\n"); 
         } // Stop printing if the mouse stays at the same square
       } // Stop if the mouse doesn't hover over any squares
     } // Stop if there's no blocking squares
@@ -486,8 +490,12 @@ public class Board {
     // Check forks for the player
     if (this.forkBlockDetector(false) != -1) {
       if (this.validInput(this.getUserInput())) {
-        if (this.getUserInput() != this.forkBlockDetector(false)) {          
-          print("You can make a fork if you go : " + (this.forkBlockDetector(false) + 1) + "\n"); 
+        if (this.getUserInput() != this.forkBlockDetector(false)) {
+          if (DEBUG)
+            print("The human player");
+          else
+            print("You");
+          print(" can make a fork if you go : " + (this.forkBlockDetector(false) + 1) + "\n"); 
         } // Stop printing if the mouse stays hovered
       } // Stop if the mouse doesn'y hover any open squares
     } // Stop if there's no forks
