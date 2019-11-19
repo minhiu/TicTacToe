@@ -17,8 +17,17 @@ public class Board {
    The human player.
   */
   private Player player;
-  
+  /**
+   Message to display
+  */
+  private String message;
+  /**
+   The index of the last button we hovered over.
+  */
   private int buttonHovered;
+  /**
+   Stores whether it's currently the player's (human's) turn.
+  */
   private boolean isPlayerTurn;
   
   /**
@@ -41,6 +50,7 @@ public class Board {
       print("You are X and the AI is O.\n");
     } // End else
     print("X goes first.\n");
+    this.message = "";
     this.buttonHovered = -2;
   } // End board constructor
   
@@ -244,6 +254,7 @@ public class Board {
   */
  public void detectHovering() {
     if (this.getUserInput() != buttonHovered && this.getUserInput() > -1) {
+      this.message = "";
       buttonHovered = board.getUserInput();
       //print("You hovered over button " + (buttonHovered + 1) + "\n");
       // Add your code here that will give the player advice based on the value of buttonHovered.
@@ -311,7 +322,9 @@ public class Board {
     if (this.findBlockingSquare(true) != -1) {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.findBlockingSquare(true)) {     
-          print("The AI is about to win if you don't play at square position: " + (this.findBlockingSquare(true) + 1) + "\n"); 
+          print("The AI is about to win if you don't play at square position: " + (this.findBlockingSquare(true) + 1) + "\n");
+          this.message += "\nThe AI is about to win if you don't play at square position: " + (this.findBlockingSquare(true) + 1);
+          //this.displayMessage(message);
         } // End if. Stop printing if the mouse stays at the same square
       } // End if. Stop if the mouse doesn't hover over any squares
     } // End if. Stop if there's no blocking squares
@@ -320,13 +333,18 @@ public class Board {
     if (this.findBlockingSquare(false) != -1) {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.findBlockingSquare(false)) {
+          //String message;
           if (DEBUG) {
             print("The human player");
+            this.message += "\nThe human player"; 
           } // End if
           else {
             print("You");
+            this.message += "\nYou";
           } // End else
-          print(" can make a move at this square position to win the game: " + (this.findBlockingSquare(false) + 1) + "\n"); 
+          print(" can make a move at this square position to win the game: " + (this.findBlockingSquare(false) + 1) + "\n");
+          this.message += " can make a move at this square position to win\nthe game: " + (this.findBlockingSquare(false) + 1);
+          //this.displayMessage(message);
         } // End if. Stop printing if the mouse stays at the same square
       } // End if. Stop if the mouse doesn't hover over any squares
     } // End if. Stop if there's no blocking squares
@@ -420,8 +438,10 @@ public class Board {
     // Check forks for the AI
     if (this.forkBlockDetector(true) != -1) {
       if (this.validInput(this.getUserInput())) {
-        if (this.getUserInput() != this.forkBlockDetector(true)) {          
-          print("The AI will make a fork if you don't go : " + (this.forkBlockDetector(true) + 1) + "\n"); 
+        if (this.getUserInput() != this.forkBlockDetector(true)) {
+          this.message += "\nThe AI will make a fork if you don't go : " + (this.forkBlockDetector(true) + 1);
+          print("The AI will make a fork if you don't go : " + (this.forkBlockDetector(true) + 1) + "\n");
+          //this.displayMessage(message);
         } // End if. Stop printing if the mouse stays hovered
       } // End if. Stop if the mouse doesn'y hover any open squares
     } // End if. Stop if there's no forks
@@ -430,13 +450,18 @@ public class Board {
     if (this.forkBlockDetector(false) != -1) {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.forkBlockDetector(false)) {
+          //String message;
           if (DEBUG) {
             print("The human player");
+            this.message += "\nThe human player";
           } // End if
           else {
             print("You");
+            this.message += "\nYou";
           } // End else
-          print(" can make a fork if you go : " + (this.forkBlockDetector(false) + 1) + "\n"); 
+          print(" can make a fork if you go : " + (this.forkBlockDetector(false) + 1) + "\n");
+          this.message += " can make a fork if you go : " + (this.forkBlockDetector(false) + 1);
+          //this.displayMessage(message);
         } // End if. Stop printing if the mouse stays hovered
       } // End if. Stop if the mouse doesn'y hover any open squares
     } // End if. Stop if there's no forks
@@ -592,6 +617,7 @@ public class Board {
   * @param buttonIndex The index of the button that the player will attempt to make a move on.
   */
   public void makeTurn(int buttonIndex) {
+    this.message = "";
     if (DEBUG) {
       if (this.isPlayerTurn)
         print("AI (" + ((this.player.getXO() == States.O) ? "X" : "O") + ")" );
@@ -698,4 +724,17 @@ public class Board {
   public boolean equals(Board otherBoard) {
     return (this.getGameover() == otherBoard.getGameover() && this.getAllButtonsString() == otherBoard.getAllButtonsString() && this.getButtonText() == otherBoard.getButtonText() && this.getPlayer() == otherBoard.getPlayer());
   } // End equals(...) function
+  
+  /**
+  * Displays messages on the bottom of the board
+  */
+  public void displayMessage() {
+    //duration = 1000;
+    textSize(15);
+    fill(0,102, 153);
+    //while(duration > 0) {
+    text(this.message, 0, 410);
+    //duration--;
+    //}//End of while loop for the message durration
+  }// End displayMessage(...) function
 }// End Board class

@@ -6,10 +6,11 @@
 
 //import java.util.*;
 
+final String TITLE = "Tic Tac Toe"; //Game title
 final int INITIAL_FRAMERATE = 60;
 final int SQUARE_SIZE = 100; // Size of the buttons and squares
 final int AI_PLAY_STYLE = 2; // 0 = dumb (random), 1 = smart, 2 = smart and unpredictable
-final boolean DEBUG = true;
+final boolean DEBUG = false;
 
 Board board = new Board();
 
@@ -29,8 +30,11 @@ void draw() {
   background(255);
   board.drawBoard();
   board.detectHovering();
-  //board.displayBlockingSquare();
-  //board.displayForkBlock();
+  textSize(40);
+  fill(0, 102, 153);
+  text(TITLE, 150, 50);
+  board.displayMessage();
+  fill(255, 255, 255);
 }// End draw() function
 
 /**
