@@ -441,18 +441,22 @@ public class Board {
     if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
       if (this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
         forks.add(6);
+       }// Can it fork?
       }// Bottom Left
      if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
       if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY) {
         forks.add(2);
+       }// Can it fork?
       }// Upper Right
      if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
       if (this.allButtons[5].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
         forks.add(8);
+       }// Can it fork?
       }// Bottom Left
      if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
       if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY) {
         forks.add(0);
+       }// Can it fork?
       }// Upper Right
            
     //Arrowhead tactic
