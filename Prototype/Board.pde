@@ -304,7 +304,7 @@ public class Board {
   */
   private int findBlockingSquare(boolean isAI) {
     States aiState = ((this.player.getXO() == States.X) ? States.O : States.X);
-     States otherPlayerState = (isAI ? aiState : this.player.getXO());
+    States otherPlayerState = (isAI ? aiState : this.player.getXO());
     // Check the whole board to see if the bot have 2 square and one blank space within the same row/column/diagonal
     for (int i = 0; i < 3; i++) {
     // Check matching for all rows
@@ -374,106 +374,82 @@ public class Board {
   * Find a spot that the user will need to place to stop a fork
   * @return Move to make to block fork
   */
- public int forkBlockDetector(boolean isAI){
-     //Find AI state
-     States aiState = ((this.player.getXO() == States.X) ? States.O : States.X);
-     States otherPlayerState = (isAI ? aiState : this.player.getXO());
-     
-         //Triangle tactic
-         if(this.allButtons[4].getState() == otherPlayerState)
-         {
-           if(this.allButtons[8].getState() == otherPlayerState && this.allButtons[5].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY)
-           {
-             return 2;
-           }// Bottom right check
-           else if(this.allButtons[2].getState() == otherPlayerState && this.allButtons[1].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY)
-           {
-             return 0;
-           }// Top right check
-           else if(this.allButtons[6].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY)
-           {
-             return 8;
-           }// Bottom left check
-           else if(this.allButtons[0].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY)
-           {
-             return 6;
-           }// Top left check
-         }//DONE TRIANGLE TACTICS
+  public int forkBlockDetector(boolean isAI){
+    States aiState = ((this.player.getXO() == States.X) ? States.O : States.X); //Find AI state
+    States otherPlayerState = (isAI ? aiState : this.player.getXO());
+   
+    //Triangle tactic
+    if (this.allButtons[4].getState() == otherPlayerState) {
+      if (this.allButtons[8].getState() == otherPlayerState && this.allButtons[5].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+        return 2;
+      }// Bottom right check
+      else if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[1].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 0;
+      }// Top right check
+      else if (this.allButtons[6].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
+        return 8;
+      }// Bottom left check
+      else if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY) {
+        return 6;
+      }// Top left check
+    }//DONE TRIANGLE TACTICS
            
-         //Arrowhead tactic
-         if(this.allButtons[7].getState() == otherPlayerState)
-         {
-           if(this.allButtons[5].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY)
-           {
-             return 8;
-           }// Right check
-           else if(this.allButtons[3].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY)
-           {
-             return 6;
-           }// Left check
-         }// Bottom arrow 1/4
-         else if(this.allButtons[1].getState() == otherPlayerState)
-         {
-           if(this.allButtons[5].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY)
-           {
-             return 2;
-           }// Left check
-           else if(this.allButtons[3].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY)
-           {
-             return 0;
-           }// Left check
-         }// Top arrow 2/4
-         else if(this.allButtons[3].getState() == otherPlayerState)
-         {
-           if(this.allButtons[1].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY)
-           {
-             return 0;
-           }// Top check
-           else if(this.allButtons[7].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY)
-           {
-             return 6;
-           }// Bottom check
-         }// Right arrow arrow 3/4
-         else if(this.allButtons[5].getState() == otherPlayerState)
-         {
-           if(this.allButtons[1].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY)
-           {
-             return 2;
-           }// Top check
-           else if(this.allButtons[7].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY)
-           {
-             return 8;
-           }// Bottom check
-         }// Left arrow 4/4 DONE ARROWHEADS
-         
-         // Encirclement Tactic
-         if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState)
-         {
-             if(this.allButtons[4].getState() == player.getXO() && this.allButtons[6].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY)
-             {
-               return 2;
-             }//Top right circle
-             else if(this.allButtons[4].getState() == player.getXO() && this.allButtons[2].getState() == player.getXO()&& this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY)
-             {
-               return 6;
-             }//Top left circle
-         }// "\" Entanglement done 1/2
-         else if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState)
-         {
-           if(this.allButtons[4].getState() == player.getXO() && this.allButtons[8].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY)
-             {
-               return 0;
-             }//Top left circle
-             else if(this.allButtons[4].getState() == player.getXO() && this.allButtons[0].getState() == player.getXO()&& this.allButtons[5].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY)
-             {
-               return 8;
-             }//Top right circle
-         }// "/" Entanglement done 2/2
-         
-     
-       // No fork detected
-       return -1;
-      }// End fork block detector
+    //Arrowhead tactic
+    if (this.allButtons[7].getState() == otherPlayerState) {
+      if (this.allButtons[5].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+        return 8;
+      }// Right check
+      else if (this.allButtons[3].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 6;
+      }// Left check
+    }// Bottom arrow 1/4
+    else if (this.allButtons[1].getState() == otherPlayerState){
+      if (this.allButtons[5].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 2;
+      }// Left check
+      else if (this.allButtons[3].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+        return 0;
+      }// Left check
+    }// Top arrow 2/4
+    else if (this.allButtons[3].getState() == otherPlayerState) {
+      if (this.allButtons[1].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+        return 0;
+      }// Top check
+      else if(this.allButtons[7].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 6;
+      }// Bottom check
+    }// Right arrow arrow 3/4
+    else if (this.allButtons[5].getState() == otherPlayerState) {
+      if (this.allButtons[1].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 2;
+      }// Top check
+      else if (this.allButtons[7].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+        return 8;
+      }// Bottom check
+    }// Left arrow 4/4 DONE ARROWHEADS
+           
+    // Encirclement Tactic
+    if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
+      if (this.allButtons[4].getState() == player.getXO() && this.allButtons[6].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY) {
+        return 2;
+      }//Top right circle
+      else if (this.allButtons[4].getState() == player.getXO() && this.allButtons[2].getState() == player.getXO()&& this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
+        return 6;
+      }//Top left circle
+    }// "\" Entanglement done 1/2
+    else if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
+      if (this.allButtons[4].getState() == player.getXO() && this.allButtons[8].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY) {
+        return 0;
+      }//Top left circle
+      else if (this.allButtons[4].getState() == player.getXO() && this.allButtons[0].getState() == player.getXO()&& this.allButtons[5].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
+        return 8;
+      }//Top right circle
+    }// "/" Entanglement done 2/2
+  
+    // No fork detected
+    return -1;
+  }// End fork block detector
+
   /**
   * Display a message telling the user where to go to block the fork
   */
