@@ -243,51 +243,6 @@ public class Board {
     return best;
   }
   
-  /**
-  * Display (if possible) an open square that would help the player win the game
-  * @return the index of the open square if found, otherwise, return -1
-  */
-  /*
-  private int findWinningSquare() {
-    // Check the whole board to see if the player have 2 square and one blank space within the same row/column/diagonal
-    for (int i = 0; i < 3; i++) {
-      // Check matching for all rows
-     if (this.allButtons[i * 3].getState() == this.player.getXO() && this.allButtons[i * 3 + 1].getState() == this.player.getXO() && this.allButtons[i * 3 + 2].getState() == States.EMPTY)
-        return (i * 3 + 2);
-      else if (this.allButtons[i * 3].getState() == this.player.getXO() && this.allButtons[i * 3 + 1].getState() == States.EMPTY && this.allButtons[i * 3 + 2].getState() == this.player.getXO())
-        return (i * 3 + 1);
-      else if (this.allButtons[i * 3].getState() == States.EMPTY && this.allButtons[i * 3 + 1].getState() == this.player.getXO() && this.allButtons[i * 3 + 2].getState() == this.player.getXO())
-        return (i * 3);  
-      
-    // Check matching for all columns
-      if (this.allButtons[i].getState() == this.player.getXO() && this.allButtons[i + 3].getState() == this.player.getXO() && this.allButtons[i + 6].getState() == States.EMPTY)
-        return (i + 6);
-      else if (this.allButtons[i].getState() == this.player.getXO() && this.allButtons[i + 3].getState() == States.EMPTY && this.allButtons[i + 6].getState() == this.player.getXO())
-        return (i + 3);
-      else if (this.allButtons[i].getState() == States.EMPTY && this.allButtons[i + 3].getState() == this.player.getXO() && this.allButtons[i + 6].getState() == this.player.getXO())
-        return (i);
-    } // End for loop
-    
-    // Check for matching diagonal from top left to bot right
-    if (this.allButtons[0].getState() == this.player.getXO() && this.allButtons[4].getState() == this.player.getXO() && this.allButtons[8].getState() == States.EMPTY)
-      return 8;
-    else if (this.allButtons[0].getState() == this.player.getXO() && this.allButtons[4].getState() == States.EMPTY && this.allButtons[8].getState() == this.player.getXO())
-      return 4;
-    else if (this.allButtons[0].getState() == States.EMPTY && this.allButtons[4].getState() == this.player.getXO() && this.allButtons[8].getState() == this.player.getXO())
-      return 0;
-    
-    // Check for matching diagonal from top right to bot left
-    if (this.allButtons[2].getState() == this.player.getXO() && this.allButtons[4].getState() == this.player.getXO() && this.allButtons[6].getState() == States.EMPTY)
-      return 6;
-    else if (this.allButtons[2].getState() == this.player.getXO() && this.allButtons[4].getState() == States.EMPTY && this.allButtons[6].getState() == this.player.getXO())
-      return 4;
-    else if (this.allButtons[2].getState() == States.EMPTY && this.allButtons[4].getState() == this.player.getXO() && this.allButtons[6].getState() == this.player.getXO())
-      return 2;
-    
-    return -1;
-  } // End function findWinningSquare()
-  */
-  
  public void detectHovering() {
     if (this.getUserInput() != buttonHovered && this.getUserInput() > -1) {
       buttonHovered = board.getUserInput();
