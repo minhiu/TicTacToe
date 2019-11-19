@@ -152,28 +152,24 @@ public class Board {
     }// Places AI's move on board
   }// End aiTurn() function
   
-  
-  // Function to remove duplicates from an ArrayList 
+  /**
+  * Remove duplicates from an ArrayList 
+  * @param ArrayList<Integer> that contains duplicates.
+  * @return ArrayList<Integer> with all duplicates removed.
+  */
     private ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) 
     { 
-  
-        // Create a new ArrayList 
-        ArrayList<Integer> newList = new ArrayList<Integer>(); 
-  
-        // Traverse through the first list 
-        for (Integer element : list) { 
-  
+        ArrayList<Integer> newList = new ArrayList<Integer>(); // Create a new ArrayList 
+        for (Integer element : list) {  // Go through the first list 
             // If this element is not present in newList 
             // then add it 
             if (!newList.contains(element)) { 
-  
                 newList.add(element); 
-            } 
-        } 
-  
+            } // End if
+        } // End for loop
         // return the new list 
         return newList; 
-    } 
+    } // End removeDuplicates() function
     
  /**
   * The AI makes a turn in a empty square that is most optimal.
@@ -302,10 +298,10 @@ public class Board {
       } // End if
       if (this.allButtons[i * 3].getState() == otherPlayerState && this.allButtons[i * 3 + 1].getState() == States.EMPTY && this.allButtons[i * 3 + 2].getState() == otherPlayerState) {
         blockingSquares.add(i * 3 + 1);
-      } // End else if
+      } // End if
       if (this.allButtons[i * 3].getState() == States.EMPTY && this.allButtons[i * 3 + 1].getState() == otherPlayerState && this.allButtons[i * 3 + 2].getState() == otherPlayerState) {
         blockingSquares.add(i * 3);  
-      } // End else if
+      } // End if
   
       // Check matching for all columns
       if (this.allButtons[i].getState() == otherPlayerState && this.allButtons[i + 3].getState() == otherPlayerState && this.allButtons[i + 6].getState() == States.EMPTY) {
@@ -313,10 +309,10 @@ public class Board {
       } // End if
       if (this.allButtons[i].getState() == otherPlayerState && this.allButtons[i + 3].getState() == States.EMPTY && this.allButtons[i + 6].getState() == otherPlayerState) {
         blockingSquares.add(i + 3);
-      } // End else if
+      } // End if
       if (this.allButtons[i].getState() == States.EMPTY && this.allButtons[i + 3].getState() == otherPlayerState && this.allButtons[i + 6].getState() == otherPlayerState) {
         blockingSquares.add(i);
-      } // End else if
+      } // End if
     } // End for loop
     
     // Check for matching diagonal from top left to bot right
@@ -482,7 +478,7 @@ public class Board {
       }//End if. Top right circle
       if (this.allButtons[4].getState() == player.getXO() && this.allButtons[2].getState() == player.getXO()&& this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
         forks.add(6);
-      }//End else if. Top left circle
+      } // End if. Top left circle
     }// "\" Entanglement done 1/2
     if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
       if (this.allButtons[4].getState() == player.getXO() && this.allButtons[8].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY) {
@@ -490,8 +486,8 @@ public class Board {
       }//End if. Top left circle
       if (this.allButtons[4].getState() == player.getXO() && this.allButtons[0].getState() == player.getXO()&& this.allButtons[5].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
         forks.add(8);
-      }//End else if. Top right circle
-    }//End else if.  "/" Entanglement done 2/2
+      } // End if. Top right circle
+    } // End if.  "/" Entanglement done 2/2
     
     // "X" fork Tactic
     if(this.allButtons[0].getState() == otherPlayerState && this.allButtons[2].getState() == otherPlayerState) {
