@@ -39,7 +39,7 @@ public class Board {
     else {
       this.isPlayerTurn = true;
       print("You are X and the AI is O.\n");
-    }
+    } // End else
     print("X goes first.\n");
     this.buttonHovered = -2;
   } // End board constructor
@@ -76,9 +76,10 @@ public class Board {
   */
   public int getUserInput() {
      for (int i = 0; i < 9; i++) {
-       if (this.allButtons[i].isInside(mouseX, mouseY))
+       if (this.allButtons[i].isInside(mouseX, mouseY)) {
          return i;
-     }// End button check
+       } // End if
+     }// End for loop. End button check
      return -1; // Return -1 if mouse is not hovering over a button.
   }// End getUserInput() function
   
@@ -93,22 +94,25 @@ public class Board {
     }// End width choie row 
   }// End drawShapes() function
   
+  /**
+  * The AI makes a turn. Calls appropriate aiTurn...() function depending on value of constants.
+  */
   private void aiTurn() {
     if (DEBUG) {
       this.isPlayerTurn = !this.isPlayerTurn;
-    }
+    } // End if
     else {
       if (AI_PLAY_STYLE == 1) {
         aiTurnSmart();
-      }
+      } // End if
       else if (AI_PLAY_STYLE == 2) {
         aiTurnSmartAndUnpredictable();
-      }
+      } // End else if
       else {
         aiTurnRandom();
-      }
-    }
-  }
+      } // End else
+    } // End else
+  } // End aiTurn() function
   
   /**
   * The AI makes a turn in a random empty square.
@@ -125,7 +129,7 @@ public class Board {
     }// Checks board states left
     if (count == 0) {
       print("No more moves possible.\n");
-    }
+    } // End if
     else {
       int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
       States aiTurn; // Assigning AI Opposite sign with player
@@ -155,17 +159,17 @@ public class Board {
         if (score > bestScore) {
           bestScore = score;
           bestIndex = i;
-        }
-      }
-    }
+        } // End if
+      } // End if
+    } // End for loop
     if (bestIndex != -1) {
       this.allButtons[bestIndex].setState(aiTurn);
       print("AI made a move on square " + (bestIndex + 1) + "\n");
-    }
+    } // End if
     else {
       print("No more moves possible.\n");
-    }
-  }
+    } // End else
+  } // End aiTurnSmart() function
   
   /**
   * The AI makes a turn in a empty square that is most optimal.
@@ -187,27 +191,27 @@ public class Board {
         this.allButtons[i].setState(States.EMPTY);
         if (score > bestScore) {
           bestIndex = i;
-        }
-      }
-    }
+        } // End if
+      } // End if
+    } // End for
     if (bestIndex != -1) {
       int randomButton;
       if (noButtonScores[2] > 0) { // Win
         randomButton = buttonIndiciesByScore[2][(int) random(noButtonScores[2])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-      }
+      } // End if
       else if (noButtonScores[1] > 0) { // Tie
         randomButton = buttonIndiciesByScore[1][(int) random(noButtonScores[1])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-      }
+      } // End else if
       else { // Lose
         randomButton = buttonIndiciesByScore[0][(int) random(noButtonScores[0])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-      }
+      } // End else
       this.allButtons[randomButton].setState(aiTurn);
       print("AI made a move on square " + (randomButton + 1) + "\n");
-    }
+    } // End if
     else {
       print("No more moves possible.\n");
-    }
-  }
+    } // End else
+  } // End aiTurnSmartAndUnpredictable() function
   
  /**
   * Uses Minimax algorithm to determine optimal space to use.
@@ -217,13 +221,13 @@ public class Board {
     States otherPlayer = ((playerWeWantToWin == States.X) ? States.O : States.X);
     if (this.returnWinner(newButtons) == playerWeWantToWin) {
       return 1;
-    }
+    } // End if
     else if (this.returnWinner(newButtons) == otherPlayer) {
       return -1;
-    }
+    } // End else if
     else if (this.isTie(newButtons)) {
       return 0;
-    }
+    } // End else if
     int best = -2 * (isMax ? 1 : -1);
     States currentMove = (isMax ? playerWeWantToWin : otherPlayer);
     int score = 0;
@@ -233,16 +237,19 @@ public class Board {
         score = this.aiTurnMinimax(this.allButtons, playerWeWantToWin, !isMax);
         if (isMax) {
           best = max(best, score);
-        }
+        } // End if
         else {
           best = min(best, score);
-        }
+        } // End else
         this.allButtons[i].setState(States.EMPTY);
-      }
-    }
+      } // End if
+    } // End for loop
     return best;
-  }
-  
+  } // End aiTurnMinimax() function
+ 
+ /**
+  * Detects if the user is hovering over a new valid button and call functions that will display certain messages about the game if hovering over new button.
+  */
  public void detectHovering() {
     if (this.getUserInput() != buttonHovered && this.getUserInput() > -1) {
       buttonHovered = board.getUserInput();
@@ -250,8 +257,8 @@ public class Board {
       // Add your code here that will give the player advice based on the value of buttonHovered.
       this.displayBlockingSquare();
       this.displayForkBlock();
-    }
- }
+    } // End if
+ } // End detectHovering() function
  
   /**
   * Display (if possible) an open square that would help the player block the winning of the bot
@@ -262,21 +269,27 @@ public class Board {
     States otherPlayerState = (isAI ? aiState : this.player.getXO());
     // Check the whole board to see if the bot have 2 square and one blank space within the same row/column/diagonal
     for (int i = 0; i < 3; i++) {
-    // Check matching for all rows
-      if (this.allButtons[i * 3].getState() == otherPlayerState && this.allButtons[i * 3 + 1].getState() == otherPlayerState && this.allButtons[i * 3 + 2].getState() == States.EMPTY)
+      // Check matching for all rows
+      if (this.allButtons[i * 3].getState() == otherPlayerState && this.allButtons[i * 3 + 1].getState() == otherPlayerState && this.allButtons[i * 3 + 2].getState() == States.EMPTY) {
         return (i * 3 + 2);
-      else if (this.allButtons[i * 3].getState() == otherPlayerState && this.allButtons[i * 3 + 1].getState() == States.EMPTY && this.allButtons[i * 3 + 2].getState() == otherPlayerState)
+      } // End if
+      else if (this.allButtons[i * 3].getState() == otherPlayerState && this.allButtons[i * 3 + 1].getState() == States.EMPTY && this.allButtons[i * 3 + 2].getState() == otherPlayerState) {
         return (i * 3 + 1);
-      else if (this.allButtons[i * 3].getState() == States.EMPTY && this.allButtons[i * 3 + 1].getState() == otherPlayerState && this.allButtons[i * 3 + 2].getState() == otherPlayerState)
+      } // End else if
+      else if (this.allButtons[i * 3].getState() == States.EMPTY && this.allButtons[i * 3 + 1].getState() == otherPlayerState && this.allButtons[i * 3 + 2].getState() == otherPlayerState) {
         return (i * 3);  
+      } // End else if
   
-    // Check matching for all columns
-      if (this.allButtons[i].getState() == otherPlayerState && this.allButtons[i + 3].getState() == otherPlayerState && this.allButtons[i + 6].getState() == States.EMPTY)
+      // Check matching for all columns
+      if (this.allButtons[i].getState() == otherPlayerState && this.allButtons[i + 3].getState() == otherPlayerState && this.allButtons[i + 6].getState() == States.EMPTY) {
         return (i + 6);
-      else if (this.allButtons[i].getState() == otherPlayerState && this.allButtons[i + 3].getState() == States.EMPTY && this.allButtons[i + 6].getState() == otherPlayerState)
+      } // End if
+      else if (this.allButtons[i].getState() == otherPlayerState && this.allButtons[i + 3].getState() == States.EMPTY && this.allButtons[i + 6].getState() == otherPlayerState) {
         return (i + 3);
-      else if (this.allButtons[i].getState() == States.EMPTY && this.allButtons[i + 3].getState() == otherPlayerState && this.allButtons[i + 6].getState() == otherPlayerState)
+      } // End else if
+      else if (this.allButtons[i].getState() == States.EMPTY && this.allButtons[i + 3].getState() == otherPlayerState && this.allButtons[i + 6].getState() == otherPlayerState) {
         return (i);
+      } // End else if
     } // End for loop
     
     // Check for matching diagonal from top left to bot right
@@ -299,35 +312,38 @@ public class Board {
   } // End function findBlockingSquare()
   
   /**
-  * Display a message if the mouse hovers over EMPTY squares that are not the blocking square
+  * Display a message if the mouse is hovering over an EMPTY square that would make either the player or AI win.
   */
-  private void displayBlockingSquare() {
+  private void displayBlockingSquare() { 
     // Check if the AI is about to win
     if (this.findBlockingSquare(true) != -1) {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.findBlockingSquare(true)) {     
           print("The AI is about to win if you don't play at square position: " + (this.findBlockingSquare(true) + 1) + "\n"); 
-        } // Stop printing if the mouse stays at the same square
-      } // Stop if the mouse doesn't hover over any squares
-    } // Stop if there's no blocking squares
+        } // End if. Stop printing if the mouse stays at the same square
+      } // End if. Stop if the mouse doesn't hover over any squares
+    } // End if. Stop if there's no blocking squares
     
     // Check if the player is about to win
     if (this.findBlockingSquare(false) != -1) {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.findBlockingSquare(false)) {
-          if (DEBUG)
+          if (DEBUG) {
             print("The human player");
-          else
+          } // End if
+          else {
             print("You");
+          } // End else
           print(" can make a move at this square position to win the game: " + (this.findBlockingSquare(false) + 1) + "\n"); 
-        } // Stop printing if the mouse stays at the same square
-      } // Stop if the mouse doesn't hover over any squares
-    } // Stop if there's no blocking squares
-  } // End of displayBlockingSquare()
+        } // End if. Stop printing if the mouse stays at the same square
+      } // End if. Stop if the mouse doesn't hover over any squares
+    } // End if. Stop if there's no blocking squares
+  } // End if. End of displayBlockingSquare()
  
  /**
-  * Find a spot that the user will need to place to stop a fork
-  * @return Move to make to block fork
+  * Find a spot that the user or AI will need to place to make or stop a fork
+  * @param isAI Whether we are checking for potential forks from the AI or the player.
+  * @return Button index that player or AI needs to create fork.
   */
   public int forkBlockDetector(boolean isAI){
     States aiState = ((this.player.getXO() == States.X) ? States.O : States.X); //Find AI state
@@ -337,69 +353,69 @@ public class Board {
     if (this.allButtons[4].getState() == otherPlayerState) {
       if (this.allButtons[8].getState() == otherPlayerState && this.allButtons[5].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY) {
         return 2;
-      }// Bottom right check
+      }// End if. Bottom right check
       else if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[1].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY) {
         return 0;
-      }// Top right check
+      }// End else if. Top right check
       else if (this.allButtons[6].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
         return 8;
-      }// Bottom left check
+      }// End else if. Bottom left check
       else if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
         return 6;
-      }// Top left check
-    }//DONE TRIANGLE TACTICS
+      }// End else if. Top left check
+    }//End if. DONE TRIANGLE TACTICS
            
     //Arrowhead tactic
     if (this.allButtons[7].getState() == otherPlayerState) {
       if (this.allButtons[5].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
         return 8;
-      }// Right check
+      }// End if. Right check
       else if (this.allButtons[3].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
         return 6;
-      }// Left check
-    }// Bottom arrow 1/4
+      }// End else if. Left check
+    }// End if. Bottom arrow 1/4
     else if (this.allButtons[1].getState() == otherPlayerState){
       if (this.allButtons[5].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY) {
         return 2;
-      }// Left check
+      }// End if. Left check
       else if (this.allButtons[3].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY) {
         return 0;
-      }// Left check
+      }// End else if. Left check
     }// Top arrow 2/4
     else if (this.allButtons[3].getState() == otherPlayerState) {
       if (this.allButtons[1].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY) {
         return 0;
-      }// Top check
+      }// End if. Top check
       else if(this.allButtons[7].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
         return 6;
-      }// Bottom check
+      }// End else if. Bottom check
     }// Right arrow arrow 3/4
     else if (this.allButtons[5].getState() == otherPlayerState) {
       if (this.allButtons[1].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY) {
         return 2;
-      }// Top check
+      }// End if. End if. Top check
       else if (this.allButtons[7].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
         return 8;
-      }// Bottom check
-    }// Left arrow 4/4 DONE ARROWHEADS
+      }// End else if. End else if. Bottom check
+    }// End else if. Left arrow 4/4 DONE ARROWHEADS
            
     // Encirclement Tactic
     if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
       if (this.allButtons[4].getState() == player.getXO() && this.allButtons[6].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY) {
         return 2;
-      }//Top right circle
+      }//End if. Top right circle
       else if (this.allButtons[4].getState() == player.getXO() && this.allButtons[2].getState() == player.getXO()&& this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
         return 6;
-      }//Top left circle
+      }//End else if. Top left circle
     }// "\" Entanglement done 1/2
     else if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
       if (this.allButtons[4].getState() == player.getXO() && this.allButtons[8].getState() == player.getXO()&& this.allButtons[1].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY) {
         return 0;
-      }//Top left circle
+      }//End if. Top left circle
       else if (this.allButtons[4].getState() == player.getXO() && this.allButtons[0].getState() == player.getXO()&& this.allButtons[5].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
         return 8;
-      }//Top right circle
-    }// "/" Entanglement done 2/2
+      }//End else if. Top right circle
+    }//End else if.  "/" Entanglement done 2/2
   
     // No fork detected
     return -1;
@@ -414,24 +430,26 @@ public class Board {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.forkBlockDetector(true)) {          
           print("The AI will make a fork if you don't go : " + (this.forkBlockDetector(true) + 1) + "\n"); 
-        } // Stop printing if the mouse stays hovered
-      } // Stop if the mouse doesn'y hover any open squares
-    } // Stop if there's no forks
+        } // End if. Stop printing if the mouse stays hovered
+      } // End if. Stop if the mouse doesn'y hover any open squares
+    } // End if. Stop if there's no forks
 
     // Check forks for the player
     if (this.forkBlockDetector(false) != -1) {
       if (this.validInput(this.getUserInput())) {
         if (this.getUserInput() != this.forkBlockDetector(false)) {
-          if (DEBUG)
+          if (DEBUG) {
             print("The human player");
-          else
+          } // End if
+          else {
             print("You");
+          } // End else
           print(" can make a fork if you go : " + (this.forkBlockDetector(false) + 1) + "\n"); 
-        } // Stop printing if the mouse stays hovered
-      } // Stop if the mouse doesn'y hover any open squares
-    } // Stop if there's no forks
-    
-  } // End of displayForkBlock()
+        } // End if. Stop printing if the mouse stays hovered
+      } // End if. Stop if the mouse doesn'y hover any open squares
+    } // End if. Stop if there's no forks
+  } // End of displayForkBlock() function
+  
   /**
   * Draws the board with the lines and shapes
   * It calls functions to draw the lines (the grid) and shapes (X's and O's) of the board.
