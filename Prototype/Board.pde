@@ -436,6 +436,24 @@ public class Board {
         forks.add(1);
       }// End else if. Top left check
     }//End if. DONE TRIANGLE TACTICS (EXTRAS)
+    
+    // "L" Fork
+    if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
+      if (this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
+        forks.add(6);
+      }// Bottom Left
+     if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
+      if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY) {
+        forks.add(2);
+      }// Upper Right
+     if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
+      if (this.allButtons[5].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
+        forks.add(8);
+      }// Bottom Left
+     if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
+      if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY) {
+        forks.add(0);
+      }// Upper Right
            
     //Arrowhead tactic
     if (this.allButtons[7].getState() == otherPlayerState) {
