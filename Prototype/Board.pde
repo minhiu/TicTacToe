@@ -190,21 +190,13 @@ public class Board {
         //print("Square " + (i + 1) + " score: " + score + "\n");
         this.allButtons[i].setState(States.EMPTY);
         if (score > bestScore) {
+          bestScore = score;
           bestIndex = i;
         } // End if
       } // End if
     } // End for
     if (bestIndex != -1) {
-      int randomButton;
-      if (noButtonScores[2] > 0) { // Win
-        randomButton = buttonIndiciesByScore[2][(int) random(noButtonScores[2])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-      } // End if
-      else if (noButtonScores[1] > 0) { // Tie
-        randomButton = buttonIndiciesByScore[1][(int) random(noButtonScores[1])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-      } // End else if
-      else { // Lose
-        randomButton = buttonIndiciesByScore[0][(int) random(noButtonScores[0])]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-      } // End else
+      int randomButton = buttonIndiciesByScore[bestScore + 1][(int) random(noButtonScores[bestScore + 1])]; // Randomly picks an index in buttonIndiciesByScore[] from 0 to (noButtonScores[bestScore + 1] - 1) inclusive.
       this.allButtons[randomButton].setState(aiTurn);
       print("AI made a move on square " + (randomButton + 1) + "\n");
     } // End if
