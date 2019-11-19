@@ -426,6 +426,28 @@ public class Board {
         return 8;
       }//End else if. Top right circle
     }//End else if.  "/" Entanglement done 2/2
+    
+    // "X" fork Tactic
+    if(this.allButtons[0].getState() == otherPlayerState && this.allButtons[2].getState() == otherPlayerState) {
+      if (this.allButtons[4].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 4;
+      }// Can the fork work
+    }// End top "X"
+    else if(this.allButtons[6].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
+      if (this.allButtons[4].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY) {
+        return 4;
+      }// Can the fork work
+    }// End bottom "X"
+    if(this.allButtons[0].getState() == otherPlayerState && this.allButtons[6].getState() == otherPlayerState) {
+      if (this.allButtons[4].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+        return 4;
+      }// Can the fork work
+    }// End left "X"
+    else if(this.allButtons[2].getState() == otherPlayerState && this.allButtons[8].getState() == otherPlayerState) {
+      if (this.allButtons[4].getState() == States.EMPTY && this.allButtons[0].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+        return 4;
+      }// Can the fork work
+    }// End right "X"
   
     // No fork detected
     return -1;
