@@ -399,6 +399,22 @@ public class Board {
         forks.add(6);
       }// End else if. Top left check
     }//End if. DONE TRIANGLE TACTICS
+    
+    //Triangle tactic (Extras)
+    if (this.allButtons[4].getState() == otherPlayerState) {
+      if (this.allButtons[0].getState() == otherPlayerState && this.allButtons[5].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY) {
+        forks.add(3);
+      }// End if. Top right check
+      else if (this.allButtons[6].getState() == otherPlayerState && this.allButtons[1].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY) {
+        forks.add(7);
+      }// End else if. Top right check
+      else if (this.allButtons[8].getState() == otherPlayerState && this.allButtons[2].getState() == States.EMPTY && this.allButtons[3].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY) {
+        forks.add(5);
+      }// End else if. Bottom left check
+      else if (this.allButtons[2].getState() == otherPlayerState && this.allButtons[0].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[1].getState() == States.EMPTY) {
+        forks.add(1);
+      }// End else if. Top left check
+    }//End if. DONE TRIANGLE TACTICS (EXTRAS)
            
     //Arrowhead tactic
     if (this.allButtons[7].getState() == otherPlayerState) {
