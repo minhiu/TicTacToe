@@ -5,6 +5,7 @@
   */
   
 public class Board {
+  
   /**
    Stores whether the board has reached a game over state.
   */
@@ -19,6 +20,12 @@ public class Board {
   private Player player;
   
   private int buttonHovered;
+  
+  /**
+   Duration used for displaying messages
+  */
+  private int duration;
+
   
   /**
   * Default Board constructor.
@@ -85,7 +92,9 @@ public class Board {
      for (int i = 0; i < 9; i++) {
        if (this.allButtons[i].isInside(mouseX, mouseY))
          return i;
-     }// End button check
+     }// End button check   
+     String test = "Thats not a button dummy!";
+     displayMessage(test);
      return -1; // Return -1 if mouse is not hovering over a button.
   }// End getUserInput() function
   
@@ -440,6 +449,8 @@ public class Board {
       } // End if
       else {
         print("You lose. Have you never played before?\n"); // "display a snarky remark about the user’s ability"
+        String gameLoss = "Haha you lose! Have you never played before?";
+        displayMessage(gameLoss);
       } // End else
       print("Press any square to start another game, or you can exit.\n");
       return true;
@@ -583,4 +594,17 @@ public class Board {
   public boolean equals(Board otherBoard) {
     return (this.getGameover() == otherBoard.getGameover() && this.getAllButtonsString() == otherBoard.getAllButtonsString() && this.getButtonText() == otherBoard.getButtonText() && this.getPlayer() == otherBoard.getPlayer());
   } // End equals(...) function
+  
+  /**
+  *Displays messages on the bottom of the board
+  */
+  public void displayMessage(String message) {
+    duration = 1000;
+    textSize(20);
+    fill(0,102, 153);
+    while(duration > 0) {
+      text(message, 100, 450);
+      duration--;
+    }//End of while loop for the message durration
+  }// End displayMessage(...) function
 }// End Board class
