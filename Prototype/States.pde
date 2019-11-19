@@ -1,7 +1,7 @@
 /**An enumeration which stores states
    Homework Assignment: TicTacToe Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
-   @version 1.0 10/22/2019
+   @version 2.0 11/18/2019
   */
   
 /**
