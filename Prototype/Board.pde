@@ -49,8 +49,8 @@ public class Board {
       this.isPlayerTurn = true;
       print("You are X and the AI is O.\n");
     } // End else
+    this.message = "\n Ready to lose???";
     print("X goes first.\n");
-    this.message = "";
     this.buttonHovered = -2;
   } // End board constructor
   
@@ -690,6 +690,7 @@ public class Board {
       } // End if
       else {
         print("You lose. Have you never played before?\n"); // "display a snarky remark about the user’s ability"
+        this.message = "Haha loser!";
       } // End else
       print("Press any square to start another game, or you can exit.\n");
       return true;
