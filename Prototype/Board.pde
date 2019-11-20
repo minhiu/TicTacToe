@@ -535,22 +535,22 @@ public class Board {
     
     // "+" fork Tactic
     if(this.allButtons[1].getState() == otherPlayerState && this.allButtons[7].getState() == otherPlayerState) {
-      if (this.allButtons[3].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+      if (this.allButtons[3].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY && this.allButtons[4].getState() == States.EMPTY) {
         forks.add(4);
       }// Can the fork work
     }// End "|" fork
     if(this.allButtons[3].getState() == otherPlayerState && this.allButtons[5].getState() == otherPlayerState) {
-      if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[2].getState() == States.EMPTY) {
+      if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[4].getState() == States.EMPTY) {
         forks.add(4);
       }// Can the fork work
     }// End "-" fork
     if(this.allButtons[3].getState() == otherPlayerState && this.allButtons[7].getState() == otherPlayerState) {
-      if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY && this.allButtons[8].getState() == States.EMPTY) {
+      if (this.allButtons[1].getState() == States.EMPTY && this.allButtons[5].getState() == States.EMPTY && this.allButtons[4].getState() == States.EMPTY) {
         forks.add(4);
       }// Can the fork work
     }// End left and bottom
     if(this.allButtons[1].getState() == otherPlayerState && this.allButtons[5].getState() == otherPlayerState) {
-      if (this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[6].getState() == States.EMPTY) {
+      if (this.allButtons[3].getState() == States.EMPTY && this.allButtons[7].getState() == States.EMPTY && this.allButtons[4].getState() == States.EMPTY) {
         forks.add(4);
       }// Can the fork work
     }// End right and top
