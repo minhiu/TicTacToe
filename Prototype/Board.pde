@@ -864,7 +864,9 @@ public class Board {
     textSize(15);
     fill(0,102, 153);
     //while(duration > 0) {
-    text(this.message, 0, 410);
+    if (!this.gameover) {
+      text(this.message, 0, 410);
+    } // End if
     //duration--;
     //}//End of while loop for the message durration
   }// End displayMessage(...) function
