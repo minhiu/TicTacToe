@@ -37,6 +37,10 @@ public class Board {
    Stores how much time in seconds player has to make a move before a move is randomly made for them.
   */
   private int maxTimeToMakeMove; // This value should be set via user input, as described in part 1 of the requirements.
+  /**
+   Stores the average time it took the player to make a move.
+  */
+  private int averageTimeToMakeMove;
   
   /**
   * Default Board constructor.
@@ -61,7 +65,9 @@ public class Board {
     print("X goes first.\n");
     this.buttonHovered = -2;
     this.lastMoveTime = millis();
-    this.maxTimeToMakeMove = 10; // This value should be set via user input, as described in part 1 of the requirements.
+    this.maxTimeToMakeMove = 5; // This value should be set via user input, as described in part 1 of the requirements.
+    this.averageTimeToMakeMove = 0;
+    //this.noTurns = 0;
   } // End board constructor
   
   /**
@@ -710,6 +716,7 @@ public class Board {
     if (this.returnWinner() != States.EMPTY) {
       this.gameover = true;
       print("Game is over.\n");
+      print("It took you an average of " + this.averageTimeToMakeMove / 1000.0 + "s per turn to make a move.\n");
       if (this.returnWinner() == States.X) {
          print("X won.\n");
       } // End if
@@ -731,6 +738,7 @@ public class Board {
       // Check if game ends in a tie.
       if (this.isTie()) {
         print("It's a tie.\n");
+        print("It took you an average of " + this.averageTimeToMakeMove / 1000.0 + "s per turn to make a move.\n");
         print("Press any square to start another game, or you can exit.\n");
         this.gameover = true;
       } // End if
@@ -781,12 +789,14 @@ public class Board {
   */
   public void makeTurn(int buttonIndex) {
     this.message = "";
-    this.lastMoveTime = millis();
+    
     if (DEBUG) {
-      if (this.isPlayerTurn)
+      if (this.isPlayerTurn) {
         print("AI (" + ((this.player.getXO() == States.O) ? "X" : "O") + ")" );
-      else
+      }
+      else {
         print("Player (" + ((this.player.getXO() == States.X) ? "X" : "O") + ")" );
+      }
       print(" goes next.\n");
     }
     if (this.gameover) {
@@ -806,21 +816,29 @@ public class Board {
       print("X goes first.\n");
       this.buttonHovered = -2;
       this.lastMoveTime = millis();
+      this.averageTimeToMakeMove = 0;
+      //this.noTurns = 0;
     }
     else {
       if (!this.checkGameOver()) {
         if (this.validInput(buttonIndex)) {
-          
-           States aiState = (player.getXO() == States.X) ? States.O : States.X;
-           States playerTurn = this.isPlayerTurn ? player.getXO() : aiState;
-           
-           this.allButtons[buttonIndex].setState(playerTurn);
-           if (!this.checkGameOver()) {
-             this.aiTurn();
-             this.checkGameOver();
+          States aiState = (player.getXO() == States.X) ? States.O : States.X;
+          States playerTurn = this.isPlayerTurn ? player.getXO() : aiState;
+          int noTurns = 1;
+          if (DEBUG) {
+            noTurns += this.countTurns(playerTurn) + this.countTurns(aiState);
+          }
+          else {
+            noTurns += this.countTurns(playerTurn);
+          }
+          //print("NO TURNS: " + noTurns + "\n");
+          this.averageTimeToMakeMove = (this.averageTimeToMakeMove * (noTurns - 1) / noTurns) + (millis() - this.lastMoveTime) / noTurns; // Weighted average
+          this.lastMoveTime = millis();
+          this.allButtons[buttonIndex].setState(playerTurn);
+          if (!this.checkGameOver()) {
+            this.aiTurn();
+            this.checkGameOver();
            }// End loop for AI move check and allows the move
-           
-           
         }// End loop for player move check and allows the move
         else
           print("Invalid move.\n");
