@@ -5,6 +5,7 @@
   */
 
 //import java.util.*;
+import controlP5.*;
 
 final String TITLE = "Tic Tac Toe"; //Game title
 final int FRAMERATE = 60;
@@ -12,8 +13,9 @@ final int SQUARE_SIZE = 100; // Size of the buttons and squares
 final int AI_PLAY_STYLE = 2; // 0 = dumb (random), 1 = smart, 2 = smart and unpredictable
 final boolean DEBUG = false;
 
+ControlP5 cp5;
+Slider mySlider;
 Board board = new Board();
-
 /**
  * Starts up and makes the window in which the board will appear in
  */
@@ -21,6 +23,21 @@ void setup() {
   // Make window
   size(500, 500);
   frameRate(FRAMERATE);
+  
+  // Make Slider
+  cp5 = new ControlP5(this);
+  mySlider = cp5.addSlider("slider")
+                  .setPosition(200,250)
+                  .setRange(3,60)
+                  .setHeight(50)
+                  ;
+                  
+  // Make Button
+  cp5.addButton("confirm")
+     .setValue(0)
+     .setPosition(150,350)
+     .setSize(200,50)
+     ;
 } // End setup() function
 
 /**
@@ -28,15 +45,28 @@ void setup() {
  */
 void draw() {
   background(255);
-  board.drawBoard();
-  board.detectHovering();
-  board.automaticMoveSelect();
-  textSize(40);
-  fill(0, 102, 153);
-  text(TITLE, 150, 50);
-  board.displayMessage();
-  fill(255, 255, 255);
+  board.welcomeMessage();
+  board.confirmedToStartGame();
+  if (board.confirmedToStart) {
+    cp5.hide();
+    background(255);
+    board.drawBoard();
+    board.detectHovering();
+    board.automaticMoveSelect();
+    textSize(40);
+    fill(0, 102, 153);
+    text(TITLE, 150, 50);
+    board.displayMessage();
+    fill(255, 255, 255);
+    board.printMaxTime();
+  }
 }// End draw() function
+
+/**
+* The main purpose is to make value of the slider integer, and t input from slider
+*/
+void slider(int maxTime) {
+}
 
 /**
   * Checks to see if the player pressed a button

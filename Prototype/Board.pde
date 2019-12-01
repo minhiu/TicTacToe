@@ -42,6 +42,7 @@ public class Board {
   */
   private int averageTimeToMakeMove;
   
+  boolean confirmedToStart = false;
   /**
   * Default Board constructor.
   * Sets all member variables.
@@ -61,11 +62,12 @@ public class Board {
       this.isPlayerTurn = true;
       print("You are X and the AI is O.\n");
     } // End else
-    this.message = "\n Ready to lose???";
+    this.message = "\n Ready to lose???\n";
     print("X goes first.\n");
     this.buttonHovered = -2;
-    this.lastMoveTime = millis();
-    this.maxTimeToMakeMove = 5; // This value should be set via user input, as described in part 1 of the requirements.
+    if (confirmedToStart)
+      this.lastMoveTime = millis() + (int) mySlider.getValue();
+    //this.maxTimeToMakeMove = 10; // Initialize to max value since the program needs input from user first
     this.averageTimeToMakeMove = 0;
     //this.noTurns = 0;
   } // End board constructor
@@ -926,24 +928,46 @@ public class Board {
   }// End displayMessage(...) function
   
   public void automaticMoveSelect() {
-    if (millis() - this.lastMoveTime >= this.maxTimeToMakeMove * 1000 && !this.gameover) {
-      int count = 0; // Number of empty squares found
-      int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
-      for (int i = 0; i < 9; i++) {
-        if (this.allButtons[i].getState() == States.EMPTY) {
-          possibleStates[count] = i;
-          ++count;
-        }// Finish adding up all remaining open board states
-      }// Checks board states left
-      if (count == 0) {
-        print("No more moves possible.\n");
-      } // End if
-      else {
-        int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-        print("You took too long. A random move was made for you on square " + (randomButton + 1) + "\n");
-        this.makeTurn(randomButton);
-      } // End else
-    } // End if
+    maxTimeToMakeMove = (int) mySlider.getValue();
+    if (confirmedToStart) {
+      if (millis() - this.lastMoveTime >= this.maxTimeToMakeMove * 1000 && !this.gameover) {
+        int count = 0; // Number of empty squares found
+        int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
+        for (int i = 0; i < 9; i++) {
+          if (this.allButtons[i].getState() == States.EMPTY) {
+            possibleStates[count] = i;
+            ++count;
+          }// Finish adding up all remaining open board states
+        }// Checks board states left
+        if (count == 0) {
+          print("No more moves possible.\n");
+        } // End if
+        else {
+          int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+          print("You took too long. A random move was made for you on square " + (randomButton + 1) + "\n");
+          this.makeTurn(randomButton);
+        } // End else
+      } // End child if
+    } // End parent if
   } // End automaticMoveSelect() function.
+
+  public void welcomeMessage() {
+    textSize(15);
+    fill(0,102,153);
+    text("   To begin the game, please adjust the slider to the desired time \n" +
+    "                                    allowance for each move", 0, 200);
+    text("Max time per each move: " + (int) mySlider.getValue() + "/second", 125, 325);
+  }
+
+  public void confirmedToStartGame() {
+      if (mousePressed)
+        if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400)
+          confirmedToStart = true;
+  }
   
+  public void printMaxTime() {
+    textSize(15);
+    fill(0,102,153);
+    text("Max time per each move: " + (int) mySlider.getValue() + "/second", 125, 80);
+  }
 }// End Board class
