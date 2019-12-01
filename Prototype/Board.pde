@@ -29,6 +29,14 @@ public class Board {
    Stores whether it's currently the player's (human's) turn.
   */
   private boolean isPlayerTurn;
+  /**
+   Stores at what time in milliseconds that the user made their last move.
+  */
+  private int lastMoveTime;
+  /**
+   Stores how much time in seconds player has to make a move before a move is randomly made for them.
+  */
+  private int maxTimeToMakeMove; // This value should be set via user input, as described in part 1 of the requirements.
   
   /**
   * Default Board constructor.
@@ -52,6 +60,8 @@ public class Board {
     this.message = "\n Ready to lose???";
     print("X goes first.\n");
     this.buttonHovered = -2;
+    this.lastMoveTime = millis();
+    this.maxTimeToMakeMove = 10; // This value should be set via user input, as described in part 1 of the requirements.
   } // End board constructor
   
   /**
@@ -771,6 +781,7 @@ public class Board {
   */
   public void makeTurn(int buttonIndex) {
     this.message = "";
+    this.lastMoveTime = millis();
     if (DEBUG) {
       if (this.isPlayerTurn)
         print("AI (" + ((this.player.getXO() == States.O) ? "X" : "O") + ")" );
@@ -791,7 +802,10 @@ public class Board {
         this.isPlayerTurn = true;
         print("You are X and the AI is O.\n");
       }
+      this.message = "\n Ready to lose???";
       print("X goes first.\n");
+      this.buttonHovered = -2;
+      this.lastMoveTime = millis();
     }
     else {
       if (!this.checkGameOver()) {
@@ -892,4 +906,26 @@ public class Board {
     //duration--;
     //}//End of while loop for the message durration
   }// End displayMessage(...) function
+  
+  public void automaticMoveSelect() {
+    if (millis() - this.lastMoveTime >= this.maxTimeToMakeMove * 1000 && !this.gameover) {
+      int count = 0; // Number of empty squares found
+      int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
+      for (int i = 0; i < 9; i++) {
+        if (this.allButtons[i].getState() == States.EMPTY) {
+          possibleStates[count] = i;
+          ++count;
+        }// Finish adding up all remaining open board states
+      }// Checks board states left
+      if (count == 0) {
+        print("No more moves possible.\n");
+      } // End if
+      else {
+        int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+        print("You took too long. A random move was made for you on square " + (randomButton + 1) + "\n");
+        this.makeTurn(randomButton);
+      } // End else
+    } // End if
+  } // End automaticMoveSelect() function.
+  
 }// End Board class

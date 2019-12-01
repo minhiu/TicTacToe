@@ -1,7 +1,7 @@
  /**A processing program to TicTacToe.
    Homework Assignment: TicTacToe Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
-   @version 2.0 11/18/2019
+   @version 3.0 12/5/2019
   */
 
 //import java.util.*;
@@ -30,6 +30,7 @@ void draw() {
   background(255);
   board.drawBoard();
   board.detectHovering();
+  board.automaticMoveSelect();
   textSize(40);
   fill(0, 102, 153);
   text(TITLE, 150, 50);
