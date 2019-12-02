@@ -16,6 +16,7 @@ final boolean DEBUG = false;
 ControlP5 cp5;
 Slider mySlider;
 Board board = new Board();
+
 /**
  * Starts up and makes the window in which the board will appear in
  */
@@ -27,11 +28,10 @@ void setup() {
   // Make Slider
   cp5 = new ControlP5(this);
   mySlider = cp5.addSlider("slider")
-                  .setPosition(200,250)
-                  .setRange(3,60)
-                  .setHeight(50)
-                  ;
-                  
+                .setPosition(200,250)
+                .setRange(3,60)
+                .setHeight(50)
+                ;
   // Make Button
   cp5.addButton("confirm")
      .setValue(0)
@@ -47,6 +47,7 @@ void draw() {
   background(255);
   board.welcomeMessage();
   board.confirmedToStartGame();
+  
   if (board.confirmedToStart) {
     cp5.hide();
     background(255);
@@ -63,9 +64,10 @@ void draw() {
 }// End draw() function
 
 /**
-* The main purpose is to make value of the slider integer, and t input from slider
+* The main purpose is to make value of the slider integer
 */
 void slider(int maxTime) {
+  // Dummy function to make the slider takes integer value
 }
 
 /**

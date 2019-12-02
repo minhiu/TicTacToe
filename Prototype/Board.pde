@@ -42,7 +42,7 @@ public class Board {
   */
   private int averageTimeToMakeMove;
   
-  boolean confirmedToStart = false;
+  public boolean confirmedToStart = false;
   /**
   * Default Board constructor.
   * Sets all member variables.
@@ -65,8 +65,8 @@ public class Board {
     this.message = "\n Ready to lose???\n";
     print("X goes first.\n");
     this.buttonHovered = -2;
-    if (confirmedToStart)
-      this.lastMoveTime = millis() + (int) mySlider.getValue();
+    if (confirmedToStart) // Tried this but it wont work
+      this.lastMoveTime = millis();
     //this.maxTimeToMakeMove = 10; // Initialize to max value since the program needs input from user first
     this.averageTimeToMakeMove = 0;
     //this.noTurns = 0;
