@@ -956,7 +956,7 @@ public class Board {
     fill(0,102,153);
     text("   To begin the game, please adjust the slider to the desired time \n" +
     "                                    allowance for each move", 0, 200);
-    text("Max time per each move: " + (int) mySlider.getValue() + "/second", 125, 325);
+    text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 325);
   }
 
   public void confirmedToStartGame() {
@@ -968,6 +968,6 @@ public class Board {
   public void printMaxTime() {
     textSize(15);
     fill(0,102,153);
-    text("Max time per each move: " + (int) mySlider.getValue() + "/second", 125, 80);
+    text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 80);
   }
 }// End Board class
