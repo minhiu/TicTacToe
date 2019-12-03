@@ -68,7 +68,7 @@ void draw() {
 */
 void slider(int maxTime) {
   // Dummy function to make the slider takes integer value
-}
+} // End slider() function
 
 /**
   * Checks to see if the player pressed a button

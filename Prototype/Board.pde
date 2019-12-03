@@ -41,7 +41,9 @@ public class Board {
    Stores the average time it took the player to make a move.
   */
   private int averageTimeToMakeMove;
-  
+  /**
+   Decide whether or not the game will start
+   */
   public boolean confirmedToStart = false;
   /**
   * Default Board constructor.
@@ -595,13 +597,13 @@ public class Board {
               print("The AI will make a fork if you don't go : " + (forks.get(i) + 1) + "\n");
               //this.displayMessage(message);
               firstFound = false;
-            }
+            } // Message fork loop for AI
             else {
               this.message += ", " + (forks.get(i) + 1);
-            }
+            } // Forks squares shown for AI
             //this.displayMessage(message);
           } // End if. Stop printing if the mouse stays at the same square
-        }
+        } // End if. All forks found for AI 
       } // End if. Stop if the mouse doesn'y hover any open squares
     } // End if. Stop if there's no forks
     
@@ -626,13 +628,13 @@ public class Board {
               print(" can make a fork if you go : " + (forks.get(i) + 1) + "\n");
               this.message += " can make a fork if you go : " + (forks.get(i) + 1);
               firstFound = false;
-            }
+            } // Fork messages for user
             else {
               this.message += ", " + (forks.get(i) + 1);
-            }
+            } // Forks displayed as part of the message for user
             //this.displayMessage(message);
           } // End if. Stop printing if the mouse stays at the same square
-        }
+        } // End if. All forks found for user
       } // End if. Stop if the mouse doesn'y hover any open squares
     } // End if. Stop if there's no forks
   } // End of displayForkBlock() function
@@ -927,6 +929,10 @@ public class Board {
     //}//End of while loop for the message durration
   }// End displayMessage(...) function
   
+  /**
+   * Automatically makes a move for the user if 
+   * their alloted time they have chosen runs out
+   */
   public void automaticMoveSelect() {
     maxTimeToMakeMove = (int) mySlider.getValue();
     if (confirmedToStart) {
@@ -951,23 +957,35 @@ public class Board {
     } // End parent if
   } // End automaticMoveSelect() function.
 
+  /**
+   * Displays a welcome message for the user 
+   * on program start up and allows them to 
+   * choose the time needed for each move
+   */
   public void welcomeMessage() {
     textSize(15);
     fill(0,102,153);
     text("   To begin the game, please adjust the slider to the desired time \n" +
     "                                    allowance for each move", 0, 200);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 325);
-  }
+  } // End welcomeMessage
 
+  /**
+   * Detect whether or not the player has started the tic tac toe game yet 
+   */
   public void confirmedToStartGame() {
       if (mousePressed)
         if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400)
           confirmedToStart = true;
-  }
+  } // End confirmedToStartGame
   
+  /**
+   * Show the average amount of time per move 
+   * the player made for each turn
+   */
   public void printMaxTime() {
     textSize(15);
     fill(0,102,153);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 80);
-  }
-}// End Board class
+  } // End printMaxTime
+} // End Board class
