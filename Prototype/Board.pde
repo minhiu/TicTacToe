@@ -1,7 +1,7 @@
 /**The board class which holds all our moves and our TicTacToe AI
    Homework Assignment: Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
-   @version 2.0 11/18/2019
+   @version 3.0 12/5/2019
   */
   
 public class Board {

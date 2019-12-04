@@ -1,7 +1,7 @@
 /**A player class that holds what state the player can be in
    Homework Assignment: TicTacToe Prototype
    @author Sean Masterson, Alex Banh, Hieu Pham, and Brandon Walker
-   @version 2.0 11/18/2019
+   @version 3.0 12/5/2019
   */
   
 /**
