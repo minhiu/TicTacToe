@@ -44,14 +44,13 @@ public class Board {
   /**
    Decide whether or not the game will start
    */
-  public boolean confirmedToStart = false;
+  public boolean confirmedToStart;
   /**
   * Default Board constructor.
   * Sets all member variables.
   */
   public Board() {
     this.gameover = false;
-    //sthis.resetBoard();
     this.resetButtons();
     this.player = new Player(); // Create new player
     this.player.assignXO(); // Assign a random sign for player
@@ -805,6 +804,7 @@ public class Board {
     }
     if (this.gameover) {
       this.gameover = false;
+      this.confirmedToStart = false;
       this.resetButtons();
       this.player.assignXO(); // Assign a random sign for player
       if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.

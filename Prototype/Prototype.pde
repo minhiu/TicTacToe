@@ -45,11 +45,14 @@ void setup() {
  */
 void draw() {
   background(255);
-  board.welcomeMessage();
-  board.confirmedToStartGame();
-  board.printTitle();
+  if (!board.confirmedToStart) {
+    cp5.show();
+    board.welcomeMessage();
+    board.confirmedToStartGame();
+    board.printTitle();
+  }
   
-  if (board.confirmedToStart) {
+  else {
     cp5.hide();
     background(255);
     board.drawBoard();
