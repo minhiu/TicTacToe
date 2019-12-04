@@ -958,6 +958,33 @@ public class Board {
   } // End automaticMoveSelect() function.
 
   /**
+   * Detect whether or not the player has started the tic tac toe game yet 
+   */
+  public void confirmedToStartGame() {
+      if (mousePressed)
+        if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400)
+          confirmedToStart = true;
+  } // End confirmedToStartGame
+   /**
+   * Show the average amount of time per move 
+   * the player made for each turn
+   */
+  public void printMaxTime() {
+    textSize(15);
+    fill(0,102,153);
+    text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 80);
+  } // End printMaxTime
+  
+  /**
+   * Print Tic Tac Toe Title
+   */
+  public void printTitle() {
+    textSize(40);
+    fill(0, 102, 153);
+    text(TITLE, 150, 50);
+  }
+  
+  /**
    * Displays a welcome message for the user 
    * on program start up and allows them to 
    * choose the time needed for each move
@@ -969,23 +996,5 @@ public class Board {
     "                                    allowance for each move", 0, 200);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 325);
   } // End welcomeMessage
-
-  /**
-   * Detect whether or not the player has started the tic tac toe game yet 
-   */
-  public void confirmedToStartGame() {
-      if (mousePressed)
-        if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400)
-          confirmedToStart = true;
-  } // End confirmedToStartGame
   
-  /**
-   * Show the average amount of time per move 
-   * the player made for each turn
-   */
-  public void printMaxTime() {
-    textSize(15);
-    fill(0,102,153);
-    text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 80);
-  } // End printMaxTime
 } // End Board class

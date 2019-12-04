@@ -45,8 +45,9 @@ void setup() {
  */
 void draw() {
   background(255);
-  board.welcomeMessage();
+  welcomeMessage();
   board.confirmedToStartGame();
+  printTitle();
   
   if (board.confirmedToStart) {
     cp5.hide();
@@ -54,12 +55,10 @@ void draw() {
     board.drawBoard();
     board.detectHovering();
     board.automaticMoveSelect();
-    textSize(40);
-    fill(0, 102, 153);
-    text(TITLE, 150, 50);
+    printTitle();
     board.displayMessage();
     fill(255, 255, 255);
-    board.printMaxTime();
+    printMaxTime();
   }
 }// End draw() function
 
