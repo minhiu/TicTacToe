@@ -44,7 +44,7 @@ public class Board {
   /**
    Decide whether or not the game will start
    */
-  public boolean confirmedToStart;
+  private boolean confirmedToStart;
   /**
   * Default Board constructor.
   * Sets all member variables.
@@ -980,5 +980,9 @@ public class Board {
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 325);
     fill(255, 255, 255);
   } // End welcomeMessage
+  
+  public boolean getConfirmedToStart() {
+    return this.confirmedToStart;
+  }
   
 } // End Board class
