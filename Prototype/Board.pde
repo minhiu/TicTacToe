@@ -71,7 +71,7 @@ public class Board {
     print("X goes first.\n");
     this.buttonHovered = -2;
     this.averageTimeToMakeMove = 0;
-    this.lastMoveTime = 0;
+    this.lastMoveTime = millis();
     this.confirmedToStart = false;
   }
   
@@ -940,8 +940,11 @@ public class Board {
    * Detect whether or not the player has started the tic tac toe game yet 
    */
   public void confirmedToStartGame() {
-    if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400) {
-      confirmedToStart = true;
+    if (!this.confirmedToStart) {
+      if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400) {
+        this.confirmedToStart = true;
+        this.lastMoveTime = millis();
+      }
     }
   } // End confirmedToStartGame
    /**
