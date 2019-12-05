@@ -942,9 +942,9 @@ public class Board {
    * Detect whether or not the player has started the tic tac toe game yet 
    */
   public void confirmedToStartGame() {
-      if (mousePressed)
-        if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400)
-          confirmedToStart = true;
+    if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400) {
+      confirmedToStart = true;
+    }
   } // End confirmedToStartGame
    /**
    * Show the average amount of time per move 
