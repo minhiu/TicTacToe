@@ -7,12 +7,12 @@
 //import java.util.*;
 import controlP5.*;
 
-final String TITLE = "Tic Tac Toe"; //Game title
 final int FRAMERATE = 60;
 final int SQUARE_SIZE = 100; // Size of the buttons and squares
 final int AI_PLAY_STYLE = 2; // 0 = dumb (random), 1 = smart, 2 = smart and unpredictable
 final boolean DEBUG = false;
-
+PImage img; // holds image for title
+PImage img2; //holds title2 for game play
 ControlP5 cp5;
 Slider mySlider;
 Board board = new Board();
@@ -24,7 +24,9 @@ void setup() {
   // Make window
   size(500, 500);
   frameRate(FRAMERATE);
-  
+   //loads titles
+  img = loadImage("tictactitle.jpg");
+  img2 = loadImage("tictactitle2.jpg");
   // Make Slider
   cp5 = new ControlP5(this);
   mySlider = cp5.addSlider("slider")
@@ -45,11 +47,12 @@ void setup() {
  */
 void draw() {
   background(255);
+
   if (!board.confirmedToStart) {
     cp5.show();
     board.welcomeMessage();
     board.confirmedToStartGame();
-    board.printTitle();
+    image(img, 120, 0);
   }
   
   else {
@@ -58,7 +61,7 @@ void draw() {
     board.drawBoard();
     board.detectHovering();
     board.automaticMoveSelect();
-    board.printTitle();
+    image(img2, 170, 0);
     board.displayMessage();
     fill(255, 255, 255);
     board.printMaxTime();

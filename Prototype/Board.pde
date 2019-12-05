@@ -963,7 +963,6 @@ public class Board {
   public void printTitle() {
     textSize(40);
     fill(0, 102, 153);
-    text(TITLE, 150, 50);
     fill(255, 255, 255);
   }
   
