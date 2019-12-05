@@ -834,7 +834,6 @@ public class Board {
     }
   }// End makeTurn() function
   
-  
   /**
    * Gets gameover state.
    * @return Whether we are in a gameover state.
@@ -903,11 +902,25 @@ public class Board {
   */
   public void displayMessage() {
     textSize(15);
+    fill(0, 102, 153);
     if (!this.gameover) {
-      fill(0, 102, 153);
       text(this.message, 0, 410);
-      fill(255, 255, 255);
     } // End if
+    else {
+      // Get winner
+      if (this.returnWinner() == this.player.getXO()) {
+        text("\nYou win. You are a master at tic-tac-toe.\nPress any square to start another game, or you can exit.", 0, 410);
+      }
+      else if (this.returnWinner() == States.EMPTY) {
+        text("\nIt's a tie.\nPress any square to start another game, or you can exit.", 0, 410);
+      }
+      else {
+        text("\nYou lose. Have you never played before?\nPress any square to start another game, or you can exit.", 0, 410);
+      }
+      String text = "\n\n\nIt took you an average of " + this.averageTimeToMakeMove / 1000.0 + "s per turn to make a move.\n";
+      text(text, 0, 410);
+    }
+    fill(255, 255, 255);
   }// End displayMessage(...) function
   
   /**
