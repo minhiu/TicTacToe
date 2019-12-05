@@ -50,6 +50,10 @@ public class Board {
   * Sets all member variables.
   */
   public Board() {
+    this.resetBoard();
+  } // End board constructor
+  
+  private void resetBoard() {
     this.gameover = false;
     this.resetButtons();
     this.player = new Player(); // Create new player
@@ -63,15 +67,13 @@ public class Board {
       this.isPlayerTurn = true;
       print("You are X and the AI is O.\n");
     } // End else
-    this.message = "\n Ready to lose???\n";
+    this.message = "\nReady to lose???\n";
     print("X goes first.\n");
     this.buttonHovered = -2;
-    if (confirmedToStart)
-      this.lastMoveTime = millis();
-    //this.maxTimeToMakeMove = 10; // Initialize to max value since the program needs input from user first
     this.averageTimeToMakeMove = 0;
-    //this.noTurns = 0;
-  } // End board constructor
+    this.lastMoveTime = 0;
+    this.confirmedToStart = false;
+  }
   
   /**
   * Clears board to start or restart the game.
@@ -803,25 +805,7 @@ public class Board {
       print(" goes next.\n");
     }
     if (this.gameover) {
-      this.gameover = false;
-      this.confirmedToStart = false;
-      this.resetButtons();
-      this.player.assignXO(); // Assign a random sign for player
-      if (this.player.getXO() == States.O) { // If the player is not X, make the AI go first.
-        this.aiTurn();
-        this.isPlayerTurn = DEBUG ? false : true;
-        print("You are O and the AI is X.\n");
-      } // End if
-      else {
-        this.isPlayerTurn = true;
-        print("You are X and the AI is O.\n");
-      }
-      this.message = "\n Ready to lose???";
-      print("X goes first.\n");
-      this.buttonHovered = -2;
-      this.lastMoveTime = millis();
-      this.averageTimeToMakeMove = 0;
-      //this.noTurns = 0;
+      this.resetBoard();
     }
     else {
       if (!this.checkGameOver()) {
@@ -918,15 +902,12 @@ public class Board {
   * Displays messages on the bottom of the board
   */
   public void displayMessage() {
-    //duration = 1000;
     textSize(15);
-    fill(0,102, 153);
-    //while(duration > 0) {
     if (!this.gameover) {
+      fill(0, 102, 153);
       text(this.message, 0, 410);
+      fill(255, 255, 255);
     } // End if
-    //duration--;
-    //}//End of while loop for the message durration
   }// End displayMessage(...) function
   
   /**
@@ -971,8 +952,9 @@ public class Board {
    */
   public void printMaxTime() {
     textSize(15);
-    fill(0,102,153);
+    fill(0, 102, 153);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 80);
+    fill(255, 255, 255);
   } // End printMaxTime
   
   /**
@@ -982,6 +964,7 @@ public class Board {
     textSize(40);
     fill(0, 102, 153);
     text(TITLE, 150, 50);
+    fill(255, 255, 255);
   }
   
   /**
@@ -991,10 +974,11 @@ public class Board {
    */
   public void welcomeMessage() {
     textSize(15);
-    fill(0,102,153);
+    fill(0, 102, 153);
     text("   To begin the game, please adjust the slider to the desired time \n" +
     "                                    allowance for each move", 0, 200);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 325);
+    fill(255, 255, 255);
   } // End welcomeMessage
   
 } // End Board class
