@@ -944,9 +944,10 @@ public class Board {
       if (mouseX>150 && mouseX < 350 && mouseY > 350 && mouseY < 400) {
         this.confirmedToStart = true;
         this.lastMoveTime = millis();
-      }
-    }
+      } // End inner if
+    } // End outer if
   } // End confirmedToStartGame
+  
    /**
    * Show the average amount of time per move 
    * the player made for each turn
@@ -956,7 +957,7 @@ public class Board {
     fill(0, 102, 153);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 80);
     fill(255, 255, 255);
-  } // End printMaxTime
+  } // End printMaxTime()
   
   /**
    * Print Tic Tac Toe Title
@@ -965,7 +966,7 @@ public class Board {
     textSize(40);
     fill(0, 102, 153);
     fill(255, 255, 255);
-  }
+  } // End printTitle()
   
   /**
    * Displays a welcome message for the user 
@@ -979,10 +980,14 @@ public class Board {
     "                                    allowance for each move", 0, 200);
     text("Max time per each move: " + (int) mySlider.getValue() + " seconds", 125, 325);
     fill(255, 255, 255);
-  } // End welcomeMessage
+  } // End welcomeMessage()
   
+  /**
+   * Gets whether the game has started.
+   * @param whether the game has started.
+   */
   public boolean getConfirmedToStart() {
     return this.confirmedToStart;
-  }
+  } // End getConfirmedToStart()
   
 } // End Board class
