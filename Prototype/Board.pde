@@ -916,26 +916,24 @@ public class Board {
    */
   public void automaticMoveSelect() {
     maxTimeToMakeMove = (int) mySlider.getValue();
-    if (confirmedToStart) {
-      if (millis() - this.lastMoveTime >= this.maxTimeToMakeMove * 1000 && !this.gameover) {
-        int count = 0; // Number of empty squares found
-        int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
-        for (int i = 0; i < 9; i++) {
-          if (this.allButtons[i].getState() == States.EMPTY) {
-            possibleStates[count] = i;
-            ++count;
-          }// Finish adding up all remaining open board states
-        }// Checks board states left
-        if (count == 0) {
-          print("No more moves possible.\n");
-        } // End if
-        else {
-          int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
-          print("You took too long. A random move was made for you on square " + (randomButton + 1) + "\n");
-          this.makeTurn(randomButton);
-        } // End else
-      } // End child if
-    } // End parent if
+    if (millis() - this.lastMoveTime >= this.maxTimeToMakeMove * 1000 && !this.gameover) {
+      int count = 0; // Number of empty squares found
+      int[] possibleStates = new int[9]; // Holds all indicies of empty squares found
+      for (int i = 0; i < 9; i++) {
+        if (this.allButtons[i].getState() == States.EMPTY) {
+          possibleStates[count] = i;
+          ++count;
+        }// Finish adding up all remaining open board states
+      }// Checks board states left
+      if (count == 0) {
+        print("No more moves possible.\n");
+      } // End if
+      else {
+        int randomButton = possibleStates[(int) random(count)]; // Randomly picks an index in possibleStates[] from 0 to (count - 1) inclusive.
+        print("You took too long. A random move was made for you on square " + (randomButton + 1) + "\n");
+        this.makeTurn(randomButton);
+      } // End else
+    } // End child if
   } // End automaticMoveSelect() function.
 
   /**

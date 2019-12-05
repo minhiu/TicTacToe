@@ -78,7 +78,6 @@ void slider(int maxTime) {
   * Checks to see if the player pressed a button
   */
 void mousePressed() {
-  
   if (board.confirmedToStart) {
     int buttonPressed = board.getUserInput(); // Get index of button that the player pressed based on the location of the mouse.
     print("You pressed button " + (buttonPressed + 1) + "\n"); // Display index of button that was pressed. plus 1. Buttons are indexed 0 through 8, but are displayed as 1 through 9.
