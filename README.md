@@ -1,6 +1,6 @@
 # TicTacToe
-CECS 343
-Name: Tic-Tac-Toe by Hieu Pham, Sean Masterson, Brandon Walker, Alex Banh
+CECS 343<br>
+Made by Hieu Pham, Sean Masterson, Brandon Walker, Alex Banh
 
 Identifier UC-TTT (A unique identifier for this use case, e.g. UC10)
 
